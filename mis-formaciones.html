@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formaciones</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+
+* {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+        p {
+        font-family: "Open Sans", sans-serif;
+        font-size: 16px;
+        color:#2e2e2e;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      a {
+        font-family: "Roboto", sans-serif;
+        font-size: 25px;
+        color:#353536;
+        
+      }
+      .logoWsap {
+        background:red;
+        height: 70px;
+        width: 70px;
+        position: fixed;
+        right:25px;
+        bottom:10px;
+        border-radius:50%;
+        background-color:#25D366;
+        background-image: url("whatsapp-symbol-logo-svgrepo-com.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: background-color 0.5s;
+        
+      }
+
+      .logoWsap:hover {
+        cursor:pointer;
+        background-color:#2BB741
+      }
+
+    </style>
+</head>
+<body>
+  <div class="logoWsap"></div>
+    <div style="text-align: center; width: 85vw; margin: auto">
+        <img src="banner.jpg" alt="" />
+        <h1 style="font-size:2em;color: #8b1e3f;">Mis formaciones</h1>
+        <p style="margin-bottom:15px;margin-top:15px;">Lorem ipsum dolor sit amet.</p>
+        <p style="margin-bottom:15px">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt fugiat quis beatae vero consequuntur cupiditate sapiente reiciendis voluptatem totam fuga?</p>
+        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, a atque repellat necessitatibus exercitationem dolores totam cupiditate voluptatem id non eum velit </p>
+        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
+        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
+        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
+        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
+        </div>
+        <section style="display: flex; flex-direction: column; margin-top: 50px">
+          <div
+            style="
+              text-align: center;
+              border: 5px solid #59656f;
+              width: 300px;
+              border-radius: 50px;
+              display: flex;
+              flex-direction: column;
+              margin: auto;
+              padding-bottom: 20px;
+              min-height: 250px;
+            "
+          >
+            <img
+              src="foto.png"
+              alt=""
+              style="
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+                margin: auto;
+                margin-top: 20px;
+                box-sizing: content-box;
+                border: 5px solid #f0c987;
+                border-radius: 50%;
+                margin-bottom: 10px;
+                padding: 10px;
+              "
+            />
+            <p style="margin-bottom: 2px">Lorem, ipsum dolor.</p>
+            <p style="margin-bottom: 2px">Lorem ipsum dolor</p>
+            <p style="margin-bottom: 2px">Lorem ipsum</p>
+            <p style="margin-bottom: 2px">Lorem.</p>
+          </div>
+        </section>
+        <section style="height: 50px; text-align: center; display: flex;background: #f1dede;margin-top:20px;">
+          <p style="margin: auto; font-size: 16px; color: #343837">
+            Copyright © 2023 [INSERTE NOMBRE]
+          </p>
+        </section>
+
+        <script>
+          const wsap = document.getElementsByClassName("logoWsap")[0]
+         wsap.addEventListener('click' , (e) => {
+          window.open("http://www.google.com")
+         })
+         </script>
+</body>
+</html>
