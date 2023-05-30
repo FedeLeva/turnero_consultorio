@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Formulario</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,67 +11,924 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&family=Roboto:wght@500&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+    />
+    <script src="https://unpkg.com/vue@3"></script>
+
+    <!-- Import component library -->
+    <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
     <style>
-      * {
-        margin: 0px;
-        padding: 0px;
-        box-sizing: border-box;
-      }
-          p {
-        font-family: "Open Sans", sans-serif;
-        font-size: 16px;
-        color:#82848e;
-      }
+            * {
+              margin: 0px;
+              padding: 0px;
+              box-sizing: border-box;
+            }
+            img {
+              width:100%;
+            }
+            p {
+              font-family: "Open Sans", sans-serif;
+              font-size: 16px;
+              color: #82848e;
+            }
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      a {
-        font-family: "Roboto", sans-serif;
-        font-size: 20px;
-        color:#353536;
-      }
-      .logoWsap {
-        background:red;
-        height: 70px;
-        width: 70px;
-        position: fixed;
-        right:25px;
-        bottom:10px;
-        border-radius:50%;
-        background-color:#25D366;
-        background-image: url("whatsapp-symbol-logo-svgrepo-com.svg");
-        background-repeat: no-repeat;
-        background-position: center;
-        transition: background-color 0.5s;
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            a {
+              font-family: "Roboto", sans-serif;
+              font-size: 20px;
+              color: #353536;
+            }
+            .logoWsap {
+              background: red;
+              height: 70px;
+              width: 70px;
+              position: fixed;
+              right: 25px;
+              bottom: 10px;
+              border-radius: 50%;
+              background-color: #25d366;
+              background-image: url("whatsapp-symbol-logo-svgrepo-com.svg");
+              background-repeat: no-repeat;
+              background-position: center;
+              transition: background-color 0.5s;
+              z-index: 100000;
+            }
+
+            .logoWsap:hover {
+              cursor: pointer;
+              background-color: #2bb741;
+            }
+
+            .el-select {
+              display: block;
+
+              padding: 10px;
+            }
+
+            .btn-horario {
+              width: 200px;
+              background: #F5F5F5;
+              margin-left: 10px;
+              margin-bottom: 10px;
+              border-radius: 5px;
+              padding: 10px;
+              font-size: 15px;
+              cursor: pointer;
+              border:1px solid #E8E2E2;
+              font-family: "Roboto", sans-serif;
+            }
+
+            .horarioSelected {
+              background: #9EB23B;
+              color:#fff;
+            }
+
+            .el-select .el-input.is-focus .el-input__wrapper,
+            .el-select .el-input__wrapper.is-focus , .el-input__wrapper.is-focus {
+              box-shadow: 0 0 0 1px #00022e inset !important;
+            }
+            .el-select-dropdown__item.selected {
+              color: inherit;
+            }
+
+            .el-select-dropdown__item {
+              color: #00022e;
+              font-family: "Open Sans", sans-serif;
+            }
+            .el-select-dropdown__item.hover,
+            .el-select-dropdown__item:hover {
+              background-color: #f0f0f0;
+            }
+
+            .optionsTitle {
+              font-family: "Roboto", sans-serif;
+              color: #fff;
+              font-size: 18px;
+              font-weight: 400;
+            }
+
+            .btn-continuar {
+              min-width: 100px;
+              height: 40px;
+              margin-right: 20px;
+              width: 130px;
+              border-radius: 5px;
+              font-size: 15px;
+              font-family: "Roboto", sans-serif;
+              border: none;
+              background: #ccd6a6;
+              color: #393646;
+              font-weight: 500;
+              transition: background 0.5s;
+              border: #b3c99c 1px solid;
+            }
+            .btn-continuar:hover {
+              background: #dae2b6;
+              cursor: pointer;
+            }
+
+            .borderReady {
+
+              outline: 3px solid #2C3639;
+
+            }
+            .disabled {
+              background: #e1eedd !important;
+              border: none;
+              cursor: not-allowed !important;
+            }
+
+
+            .section {
+              display: flex;
+                width: 60%;
+                margin: auto;
+                text-align: center;
+                box-shadow: 0 30px 40px #f0f0f0;
+            }
+
+            .infoValue {
+              width: 30%; background-color: #86c8bc; border-radius: 3px
+            }
+          .form {
+            width: 70%
+          }
+          .containerBanner {
+            text-align: center; margin: auto;width:100%;
+            max-width: 300px;
+          }
+
+          .bannerTitle {
+            font-size: 1.8em; color: #8b1e3f; margin-bottom: 50px
+          }
+
+          .form__label {
+            font-size: 16px; text-align: left;color:#00022E;font-weight:500;font-family: 'Roboto', sans-serif;
+            padding-bottom:2px;
+          }
+
+
+          .marginL-10{
+            margin-left:10px;
+          }
+
+          .form__containerInput {
+            width: 216px;
+                margin-left: 29px;
+                margin-right: 24px;
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                padding-bottom: 20px;
+                margin-top:30px;
+                margin:auto;
+                margin-bottom:20px;
+          }
+
+          .form__labelError {
+            position:absolute;bottom:0;left:13px;color:#f00;font-size:13px;font-family: Roboto, sans-serif;
+            width:100%;text-align:left;
+          }
+
+          .heightSMALL-80 {
+            display:flex;
+          }
+
+          .containPay {
+            border: 1px solid #B7B7B7;width:80%;min-height:200px;margin:auto;margin-top:20px;border-radius:10px;
+          }
+        .containPay__text {
+          padding-left:20px;padding-top:20px;  font-family: 'Roboto', sans-serif;font-weight:500;color:#1C0A00;font-size:16px;
+        }
+
+        .containPay__space {
+          display:block;width:70%
+        }
+
+        .containPay__price {
+          padding-right:20px;padding-top:20px;font-family: 'Roboto', sans-serif;font-weight:500;color:#1C0A00;font-size:16px;
+        }
+
+        .containPay__containerPrice {
+          display:flex;
+          justify-content: center;
+        }
+
+        .titlePay {
+          font-size:20px; font-family: 'Roboto', sans-serif;text-align:left;padding-left:20px;padding-top:20px;
+        }
+
+        .containPay__textService {
+          font-family: 'Roboto', sans-serif;color:#180A0A;padding-bottom:10px;text-align:left;padding-left:20px;font-size:16px;
+        }
+        .containPay__titleService {
+          color:#7F8487;font-family: 'Roboto', sans-serif;font-weight:400;text-align:left;padding-left:20px;padding-top:20px;margin-bottom:5px;font-size:16px;
+        }
+
+        .containPay__containService {
+          width:90%;border: 1px solid #B7B7B7;margin:auto;margin-top:20px;border-radius:5px;
+        }
+
+        .payInfo {
+          padding-top:20px;font-family: 'Roboto', sans-serif;color:#524A4E;font-size:16px;
+        }
+
+        .form__containerButtons {
+          padding-bottom: 10px;
+              padding-top: 5px;
+              box-shadow: 0 2px 2px #f0f0f0;
+              text-align: left;
+              padding-left: 20px;
+              display: flex;
+        }
+         @media (max-width:250px) {
+
+          .containPay__textService {
+              padding:0;
+            }
+          .containPay {
+            border:none;
+          }
+
+          .containPay__containerPrice {
+            flex-direction: column;
+          }
+
+          .containPay__text {
+            padding-left:0;
+          }
+          .containPay__price {
+            padding-right:0;
+          }
+         }
+          @media (max-width:270px) {
+            .containPay {
+              width:90%;
+            }
+          }
+          @media(max-width:1208px) {
+            .section {
+              width: 80%;;
+            }
+          }
+
+          @media(max-width:910px) {
+            .section {
+              width: 90%;;
+            }
+          }
+          @media (max-width:870px){
+            .form__containerInput {
+              margin-top:5px;
+            }
+          }
+          @media(max-width:810px) {
+            .section {
+              width: 95%;;
+            }
+          }
+
+          @media(max-width:770px) {
+             .section {
+              flex-direction: column;
+             }
+
+             .infoValue {
+              display: none;
+             }
+
+             .form {
+              width:95%;
+             }
+          }
+         @media(max-width:315px) {
+          .form__containerInput {
+            margin-left:0;
+          }
+         }
+
+         @media (max-width:210px) {
+          .containPay__text {
+            padding-left:0;
+          }
+          .containPay__space {
+            display:none;
+          }
+          .containPay__price {
+            padding-right:0;
+          }
+         }
+          @media(max-width:201px) {
+            .bannerTitle {
+              font-size: initial;
+            }
+
+            .marginL-10 {
+              margin:0;
+            }
+
+
+
+          }
+
+
+          .el-select-dropdown__item{
+            white-space: normal;
+            height: 100%;
+          }
+
+          @media (max-width:240px) {
+
+          }
+          @media (max-width:230px) {
+            .containPay {
+              margin:auto;
+              width:auto;
+              border:none;
+            }
+
+            .containPay__containService {
+              border:none;
+            }
+            
+          
+
+          }
+         @media (max-width:215px) {
+          .heightSMALL-80 {
+            height:60px;
+          }
+         }
+
+         @media (max-width:210px) {
+         
+
+          .form__labelError {
+            left:0;
+          }
+         }
+
+
+         @media (max-width: 165px) {
+
+
         
+          .containPay__containerPrice {
+            flex-wrap:wrap;
+          }
+
+
+         
+      .containPay__textService {
+        padding-left:0;
+        font-size:14px;
+      }
+      .containPay__titleService {
+        padding-left:0;
+        font-size:14px;
+      }
+         .containPay__containService {
+          width:auto;
+
+
+         }
+
+         }
+          @media(max-width:152px) {
+            .el-select-dropdown__item {
+              padding:0
+            }
+            .form__label {
+              padding:0
+            }
+
+            
+
+            .payInfo {
+                   font-size: 14px;
+            }
+
+            .titlePay {
+            padding-left:0;
+          }
+          }
+
+      
+        
+
+          @media (max-width:140px) {
+                .containPay__price {
+                  font-size:13px;
+                }
+
+                .payInfo {
+                  font-size:13px;
+                }
+          }
+    @media (max-width: 176px) {
+      .font-13 {
+        font-size:13px;
       }
 
-      .logoWsap:hover {
-        cursor:pointer;
-        background-color:#2BB741
+      .form__containerButtons {
+        padding-left:0;
       }
+    }
     </style>
-</head>
-<body>
-  <div class="logoWsap"></div>
-    <div style="text-align: center; width: 85vw; margin: auto">
-        <img src="banner.jpg" alt="" />
-        <h1 style="font-size:1.8em;color: #8b1e3f;">RESERVA TU TURNO</h1>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <link rel="stylesheet" href="formulario.css" />
+    <link rel="stylesheet" href="calendar.css" />
+    <script src="app.js"></script>
+    <script src="formulario.js"></script>
+    <script src="components/turno.js"></script>
+    <script src="components/horario.js"></script>
+    <script src="components/info.js"></script>
+    <script src="components/confirmarPago.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        App.mount("#formulario");
+        document.querySelector("#formulario").style.visibility = "visible";
+      });
+    </script>
+  </head>
+  <body>
+    <div class="logoWsap"></div>
+    <div class="containerBanner">
+      <img src="banner.jpg" alt="" />
+      <h1 class="bannerTitle">RESERVA TU TURNO</h1>
+    </div>
+    <div id="formulario" style="visibility: hidden">
+     
+  
+      <section class="section">
+        <div class="infoValue">
+          <div style="min-height: 100px; padding-top: 20px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                height: 30px;
+              "
+            >
+              <h2
+                class="optionsTitle"
+                style="padding-left: 10px; margin: auto; width: 80%"
+              >
+                Tu turno
+              </h2>
+              <div style="margin-right: 30px; display: flex">
+                <div
+                  style="
+                    border: 4px solid #000;
+                    border-radius: 50%;
+                    display: flex;
+                    margin: auto;
+                    width: 24px;
+                    height: 24px;
+                    position: relative;
+                  "
+                  :class="{borderReady : this.turnos.camposCompletados.turno && this.turnos.actual == 1 }"
+                >
+                  <svg
+                    v-if="this.turnos.camposCompletados.turno"
+                    style="
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                    "
+                    fill="#000000"
+                    height="24px"
+                    width="24px"
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 512 512"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <g>
+                        <path
+                          d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501
+                   L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218
+                   c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0
+                   C389.283,193.321,389.283,214.462,376.239,227.501z"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <p
+              :class="{optionsTitle : true , animate__animated : true , animate__fadeInRight : valueModalidad }   "
+              style="
+                font-size: 15px;
+                text-transform: capitalize;
+                padding-top: 5px;
+                text-align: left;
+                margin-left: 10px;
+              "
+            >
+              {{valueModalidad}}
+            </p>
+            <p
+              :class="{optionsTitle : true , animate__animated : true , animate__fadeInRight : valueEncuentro }"
+              style="
+                font-size: 15px;
+                text-transform: capitalize;
+                padding-top: 5px;
+                padding-bottom: 15px;
+                text-align: left;
+                margin-left: 10px;
+              "
+            >
+              {{valueEncuentro}}
+            </p>
+          </div>
+          <div style="height: 100px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                height: 30px;
+              "
+            >
+              <h2
+                class="optionsTitle"
+                style="padding-left: 10px; margin: auto; width: 80%"
+              >
+                Fecha y Hora
+              </h2>
+              <div style="margin-right: 30px; display: flex">
+                <div
+                  style="
+                    border: 4px solid #000;
+                    border-radius: 50%;
+                    display: flex;
+                    margin: auto;
+                    width: 24px;
+                    height: 24px;
+                    position: relative;
+                  "
+                  :class="{borderReady : this.turnos.camposCompletados.calendario && this.turnos.actual == 2 }"
+                >
+                  <svg
+                    v-if="this.turnos.camposCompletados.calendario"
+                    style="
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                    "
+                    fill="#000000"
+                    height="24px"
+                    width="24px"
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 512 512"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <g>
+                        <path
+                          d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501
+                 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218
+                 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0
+                 C389.283,193.321,389.283,214.462,376.239,227.501z"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <p
+              :class="{optionsTitle : true , animate__animated : true , animate__fadeInRight : valueHorario }   "
+              style="
+                font-size: 15px;
+                text-transform: capitalize;
+                padding-top: 5px;
+                padding-bottom: 15px;
+                text-align: left;
+                margin-left: 10px;
+              "
+            >
+              {{valueHorario}}
+            </p>
+          </div>
+          <div style="min-height: 100px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                height: 30px;
+              "
+            >
+              <h2
+                class="optionsTitle"
+                style="padding-left: 10px; margin: auto; width: 80%"
+              >
+                Tu info
+              </h2>
+              <div style="margin-right: 30px; display: flex">
+                <div
+                  style="
+                    border: 4px solid #000;
+                    border-radius: 50%;
+                    display: flex;
+                    margin: auto;
+                    width: 24px;
+                    height: 24px;
+                    position: relative;
+                  "
+                  :class="{borderReady : this.turnos.camposCompletados.info && this.turnos.actual == 3 }"
+                >
+                  <svg
+                    v-if="this.turnos.camposCompletados.info"
+                    style="
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                    "
+                    fill="#000000"
+                    height="24px"
+                    width="24px"
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 512 512"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <g>
+                        <path
+                          d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501
+                 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218
+                 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0
+                 C389.283,193.321,389.283,214.462,376.239,227.501z"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <p
+              :class="{optionsTitle : true , animate__animated : true , animate__fadeInRight : datePersonal.nombre }"
+              style="
+                font-size: 15px;
+                text-transform: capitalize;
+                padding-top: 5px;
+                text-align: left;
+                margin-left: 10px;
+              "
+            >
+              {{datePersonal.nombre}}
+            </p>
+            <p
+              :class="{optionsTitle : true , animate__animated : true , animate__fadeInRight : datePersonal.apellido }"
+              style="
+                font-size: 15px;
+                text-transform: capitalize;
+                margin-right: 3px;
+                text-align: left;
+                margin-left: 10px;
+              "
+            >
+              {{datePersonal.apellido}}
+            </p>
+            <p
+              :class="{optionsTitle : true , animate__animated : true , animate__fadeInRight : datePersonal.email }"
+              style="
+                font-size: 15px;
+
+                text-align: left;
+                margin-left: 10px;
+              "
+            >
+              {{datePersonal.email}}
+            </p>
+            <p
+              :class="{optionsTitle : true , animate__animated : true , animate__fadeInRight : datePersonal.telefono }"
+              style="
+                font-size: 15px;
+                text-transform: capitalize;
+                text-align: left;
+                margin-left: 10px;
+              "
+            >
+             {{datePersonal.telefono}}
+            </p>
+          </div>
+          <div>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                height: 30px;
+              "
+            >
+              <h2
+                class="optionsTitle"
+                style="padding-left: 10px; margin: auto; width: 80%"
+              >
+                Pago
+              </h2>
+              <div style="margin-right: 30px; display: flex">
+                <div
+                  style="
+                    border: 4px solid #000;
+                    border-radius: 50%;
+                    display: flex;
+                    margin: auto;
+                    width: 24px;
+                    height: 24px;
+                    position: relative;
+                  "
+                  :class="{borderReady : this.turnos.camposCompletados.pago && this.turnos.actual == 4 }"
+                >
+                  <svg
+                    v-if="this.turnos.camposCompletados.pago"
+                    style="
+                      position: absolute;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                    "
+                    fill="#000000"
+                    height="24px"
+                    width="24px"
+                    version="1.1"
+                    id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 512 512"
+                    xml:space="preserve"
+                  >
+                    <g>
+                      <g>
+                        <path
+                          d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501
+                 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218
+                 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0
+                 C389.283,193.321,389.283,214.462,376.239,227.501z"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <section style="height: 50px; text-align: center; display: flex;background: #f1dede;margin-top:20px;">
-          <p style="margin: auto; font-size: 16px; color: #343837">
-            Copyright © 2023 [INSERTE NOMBRE]
-          </p>
-        </section>
-        <script>
-          const wsap = document.getElementsByClassName("logoWsap")[0]
-         wsap.addEventListener('click' , (e) => {
-          window.open("http://www.google.com")
-         })
-         </script>
-</body>
+        <div class="form">
+          <div
+
+
+            class="form__containerButtons"
+           
+          >
+            <el-button
+              style="height: 24px; width: 24px; margin-right: 10px"
+              v-if="(turnos.actual !== 1)"
+              @click="back(turnos.actual)"
+            >
+              <svg
+                width="16px"
+                height="16px"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title />
+
+                <g id="Complete">
+                  <g id="F-Chevron">
+                    <polyline
+                      fill="none"
+                      id="Left"
+                      points="15.5 5 8.5 12 15.5 19"
+                      stroke="#000"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </g>
+                </g></svg
+            ></el-button>
+            <h2 class="font-13">{{title}}</h2>
+          </div>
+          <div style="height: 444px; overflow: auto; padding-top: 5px">
+            <turno-personalizado
+              :modalidad="valueModalidad"
+              :encuentro="valueEncuentro"
+              :errors="errors"
+              :options-modalidad="optionsModalidad"
+              :options-motivo="optionsMotivo"
+              @change-value="changeValue"
+              v-if="turnos.turno"
+              :loading="loading"
+            ></turno-personalizado>
+
+            <div v-if="turnos.calendario">
+              <div>
+                <Calendario
+                  :fecha_inicial="fecha"
+                  @selected="selectedFecha"
+                  @change-month="cambiarMes"
+                  :loading="loading"
+                  :eventos="eventos"
+                  @renderizado="initialCalendar"
+                ></Calendario>
+                <horario-personalizado
+                  v-if="horario"
+                  :fecha="fecha"
+                  :turnos-disponibles="turnosDisponibles"
+                  @selecciono-horario="selectedHorario"
+                
+                ></horario-personalizado>
+              </div>
+            </div>
+
+            <info-personalizado
+              :errors="errors"
+              @change-value="changeValue"
+              v-if="turnos.info"
+              :nombre="valueNombre"
+              :apellido="valueApellido"
+              :email="valueMail"
+              :area="valueArea"
+              :telefono="valueTelefono"
+              :loading="loading"
+            ></info-personalizado>
+            <confirmar-pago
+              v-if="turnos.confirmarPago"
+              :modalidad="valueModalidad"
+              :encuentro="valueEncuentro"
+              :precios="optionsMotivo"
+              :loading="loading"
+            ></confirmar-pago>
+          </div>
+          <div
+            style="
+              padding-bottom: 20px;
+              padding-top: 20px;
+
+              display: flex;
+              justify-content: flex-end;
+              box-shadow: 0 -2px 3px #f0f0f0;
+            "
+          >
+            <button
+              @click="next(turnos.actual)"
+              :class="{disabled : (turnos.actual == 2 && !valueHorario) || loading  , 'btn-continuar' : true}"
+            >
+              Continuar
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section
+      style="
+        height: 50px;
+        text-align: center;
+        display: flex;
+        background: #f1dede;
+        margin-top: 20px;
+      "
+    >
+      <p style="margin: auto; font-size: 16px; color: #343837">
+        Copyright © 2023 [INSERTE NOMBRE]
+      </p>
+    </section>
+
+    <script>
+      const wsap = document.getElementsByClassName("logoWsap")[0];
+      wsap.addEventListener("click", (e) => {
+        window.open("http://www.google.com");
+      });
+    </script>
+  </body>
 </html>

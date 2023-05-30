@@ -1,0 +1,239 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  p {
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    color: #82848e;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    color: #353536;
+  }
+
+  .logoWsap {
+    background: red;
+    height: 70px;
+    width: 70px;
+    position: fixed;
+    right: 25px;
+    bottom: 10px;
+    border-radius: 50%;
+    background-color: #25d366;
+    background-image: url("whatsapp-symbol-logo-svgrepo-com.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: background-color 0.5s;
+  }
+
+  .logoWsap:hover {
+    cursor: pointer;
+    background-color: #2bb741;
+  }
+  .banner {
+    text-align: center;
+    width: 85vw;
+    margin: auto;
+  }
+  .aboutMe {
+    display: flex;
+    width: 70vw;
+    margin: auto;
+  }
+  .aboutMe__profile {
+    width: 70%;
+    text-align: left;
+  }
+
+  .aboutMe__containerDescription {
+    width: 80%;
+    margin: 40px auto;
+  }
+  .aboutMe__ContainerImage {
+    display: flex;
+    background-color: #8fad88;
+    background-image: url("flower-removebg-preview.png");
+
+  }
+
+  .aboutMe__image {
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    position: relative;
+    left: -6vw;
+    margin: auto;
+  }
+  .aboutMe__btn {
+    padding: 10px;
+    border-radius: 3px;
+    color: #fff;
+    text-decoration: none;
+    background: #8fad88;
+    font-size: 16px;
+    max-width: 215px;
+    display: block;
+    line-height: 15px;
+    box-sizing: content-box;
+  }
+  .contact {
+    display: flex;
+    width: 80vw;
+    margin: auto;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
+  .contact__containerInstagram {
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: 10px;
+  }
+
+  .contact__containerEmail {
+    display: flex;
+    margin-bottom: 16px;
+    margin-left: 10px;
+    font-weight: 800;
+    color: #343837;
+  }
+
+  .presentation {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+  }
+
+  .presentation__containerImage {
+    text-align: center;
+    border: 5px solid #59656f;
+    min-width: 300px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding-bottom: 20px;
+    min-height: 250px;
+
+  }
+  .animation_grow:hover {
+    animation-name:grow;
+    animation-duration:.3s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+  .presentation__image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    margin: auto;
+    margin-top: 20px;
+    box-sizing: content-box;
+    border: 5px solid #f0c987;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  .presentation__btn {
+    border-radius: 15px;
+    max-width: 350px;
+    margin: auto;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #fff;
+    text-decoration: none;
+    border: 3px solid #1b1d1c;
+    background: #8b1e3f;
+  }
+  @media (max-width: 768px) {
+    .aboutMe {
+      flex-direction: column;
+    }
+    .presentation__containerImage {
+      margin-top: 50px;
+    }
+    .aboutMe__profile,
+    .aboutMe__containerDescription {
+      width: 100%;
+    }
+
+    .aboutMe__image {
+      position: static;
+      padding: 20px;
+    }
+
+    .contact {
+      text-align: center;
+    }
+
+    .contact__containerInstagram,
+    .contact__containerEmail {
+      margin: auto;
+      text-align: center;
+      min-width: 200px;
+    }
+
+    .presentation__containerImage {
+      min-width: 200px;
+    }
+  }
+  @media (max-width: 320px) {
+    .aboutMe__btn {
+      font-size: 15px;
+    }
+  }
+  @media (max-width: 310px) {
+    .aboutMe__btn {
+      display: block;
+    }
+  }
+  @media (max-width: 250px) {
+    .contact {
+      width: 100%;
+    }
+
+    .presentation__containerImage {
+      padding-bottom: 0;
+      min-width: 100%;
+    }
+
+    .contact__containerInstagram,
+    .contact__containerEmail {
+      min-width: 100%;
+    }
+
+    .presentation {
+      margin-top: 0;
+    }
+  }
+
+.animate__delay-05s {
+  animation-delay: 0.1s;
+}
+
+.animate__delay-010s {
+  animation-delay: 0.2s;
+}
+
+
+@keyframes grow {
+  100% {
+    transform:scale(1.1);
+  }
+}
