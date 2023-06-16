@@ -2,29 +2,29 @@ const mp = new MercadoPago("TEST-ee10fc35-6c13-4ede-bf9d-3575251ec436", {
   locale: "es-AR",
 });
 
-const inicializar = () => {
+const initialize = () => {
   const cardNumberElement = mp.fields
     .create("cardNumber", {
       placeholder: "1234 1234 1234 1234",
     })
-    .mount("form-checkout__cardNumber");
+    .mount("formCheckout__cardNumber");
 
   const expirationDateElement = mp.fields
     .create("expirationDate", {
       placeholder: "MM/YY",
     })
-    .mount("form-checkout__expirationDate");
+    .mount("formCheckout__expirationDate");
   const securityCodeElement = mp.fields
     .create("securityCode", {
       placeholder: "123",
     })
-    .mount("form-checkout__securityCode");
+    .mount("formCheckout__securityCode");
 
   (async function getIdentificationTypes() {
     try {
       const identificationTypes = await mp.getIdentificationTypes();
       const identificationTypeElement = document.getElementById(
-        "form-checkout__identificationType"
+        "formCheckout__identificationType"
       );
       createSelectOptions(identificationTypeElement, identificationTypes);
     } catch (e) {
@@ -98,9 +98,9 @@ const inicializar = () => {
   }
 
   const paymentMethodElement = document.getElementById("paymentMethodId");
-  const issuerElement = document.getElementById("form-checkout__issuer");
+  const issuerElement = document.getElementById("formCheckout__issuer");
   const installmentsElement = document.getElementById(
-    "form-checkout__installments"
+    "formCheckout__installments"
   );
 
   const issuerPlaceholder = "Banco emisor";
@@ -180,13 +180,13 @@ async function createCardToken(event) {
     if (!tokenElement.value) {
       event.preventDefault();
       const token = await mp.fields.createCardToken({
-        cardholderName: document.getElementById("form-checkout__cardholderName")
+        cardholderName: document.getElementById("formCheckout__cardholderName")
           .value,
         identificationType: document.getElementById(
-          "form-checkout__identificationType"
+          "formCheckout__identificationType"
         ).value,
         identificationNumber: document.getElementById(
-          "form-checkout__identificationNumber"
+          "formCheckout__identificationNumber"
         ).value,
       });
       tokenElement.value = token.id;

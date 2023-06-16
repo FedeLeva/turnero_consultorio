@@ -2,8 +2,7 @@
 
 
 
-$mysqli = new mysqli("localhost", "Usuario", "arrozz", "consultoriobd");
-
+$mysqli = new mysqli("localhost", "Usuario", "arrozz", "officebd");
 mysqli_set_charset($mysqli, "utf8");
 if ($mysqli->connect_errno) {
     echo "Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
@@ -12,18 +11,19 @@ if ($mysqli->connect_errno) {
 
 
 
-$query = "SELECT * FROM reserva  
-join paciente as p on reserva.id_paciente = p.ID 
-join fecha as f on reserva.id_fecha = f.ID 
-join turno on  reserva.id_turno = turno.ID 
-join horario on turno.id_horario = horario.ID
+$query = "SELECT * FROM booking
+join patient as p on booking.id_patient = p.ID 
+join date as d on booking.id_date = d.ID 
+join turn as t on  booking.id_turn = t.ID 
+join schedule as s on t.id_schedule = s.ID
 ";
 
 
 
 
+
 if (isset($_GET['id'])) {
-    $query = $query . " where MP_identificador = " . $_GET['id'];
+    $query = $query . " where MP_identifier = " . $_GET['id'];
 }
 
 

@@ -1,0 +1,193 @@
+
+/* titlePayment */
+.titlePayment {
+  font-size:20px; font-family: 'Roboto', sans-serif;text-align:left;padding-left:20px;padding-top:20px;
+}
+/* paymentContainer */
+.paymentContainer {
+    border: 1px solid #B7B7B7;width:80%;min-height:200px;margin:auto;margin-top:20px;border-radius:10px;
+  }
+.paymentContainer__text {
+  padding-left:20px;padding-top:20px;  font-family: 'Roboto', sans-serif;font-weight:500;color:#1C0A00;font-size:16px;
+}
+
+.paymentContainer__space {
+  display:block;width:70%
+}
+
+.paymentContainer__price {
+  padding-right:20px;padding-top:20px;font-family: 'Roboto', sans-serif;font-weight:500;color:#1C0A00;font-size:16px;
+}
+
+
+.paymentContainer__priceContainer {
+  display:flex;
+  justify-content: center;
+}
+
+.paymentContainer__textService {
+  font-family: 'Roboto', sans-serif;color:#180A0A;padding-bottom:10px;text-align:left;padding-left:20px;font-size:16px;
+}
+.paymentContainer__titleService {
+  color:#7F8487;font-family: 'Roboto', sans-serif;font-weight:400;text-align:left;padding-left:20px;padding-top:20px;margin-bottom:5px;font-size:16px;
+}
+
+
+.paymentContainer__serviceContainer {
+  width:90%;border: 1px solid #B7B7B7;margin:auto;margin-top:20px;border-radius:5px;
+}
+
+
+
+
+/* payInfo */
+.payInfo {
+    padding-top:20px;font-family: 'Roboto', sans-serif;color:#524A4E;font-size:16px;
+  }
+
+  .payInfo--mb20 {
+    margin-bottom:20px;
+  }
+
+/* Modifiers */
+ .w-90 {
+  width:90%
+ }
+
+/* Responsive */
+  @media (max-width:250px) {
+  
+    .paymentContainer__textService {
+        padding:0;
+      }
+    .paymentContainer {
+      border:none;
+    }
+
+    .paymentContainer__priceContainer {
+      flex-direction: column;
+    }
+
+    .paymentContainer__text {
+      padding-left:0;
+    }
+    .paymentContainer__price {
+      padding-right:0;
+    }
+   }
+
+   @media (max-width:270px) {
+    .paymentContainer {
+      width:90%;
+    }
+  }
+
+
+  @media (max-width:210px) {
+    .paymentContainer__text {
+      padding-left:0;
+    }
+    .paymentContainer__space {
+      display:none;
+    }
+    .paymentContainer__price {
+      padding-right:0;
+    }
+  }
+
+
+  @media (max-width:230px) {
+    .paymentContainer {
+      margin:auto;
+      width:auto;
+      border:none;
+    }
+
+    .paymentContainer__serviceContainer {
+      border:none;
+    }
+    
+  
+
+  }
+
+  
+
+  @media (max-width: 165px) {
+  
+  
+          
+    .paymentContainer__priceContainer {
+      flex-wrap:wrap;
+    }
+
+
+   
+   .paymentContainer__textService {
+    padding-left:0;
+     font-size:14px;
+     }
+     .paymentContainer__titleService {
+     padding-left:0;
+     font-size:14px;
+     }
+     .paymentContainer__serviceContainer {
+     width:auto;
+
+
+     }
+
+  }
+
+
+  @media(max-width:152px) {
+           
+  
+              
+  
+    .payInfo {
+           font-size: 14px;
+    }
+
+    .titlePayment {
+    padding-left:0;
+    }
+  }
+
+  @media (max-width:140px) {
+    .paymentContainer__price {
+      font-size:13px;
+    }
+
+    .payInfo {
+      font-size:13px;
+    }
+  }  
+  /* Skeleton */
+
+  .skeleton__titlePayment {
+    font-size:20px; font-family: 'Roboto', sans-serif;text-align:left;padding-left:20px;padding-top:20px;
+  }
+  .skeleton__titlePayment--size {
+    height:27px;max-width:200px;
+  }
+
+  .skeleton__paymentContainer {
+    width:80%;height:200px;margin:auto;margin-top:20px;border-radius:10px;
+  }
+
+  .skeleton__payInfo {
+    padding-top:20px;font-family: 'Roboto', sans-serif;color:#524A4E;font-size:16px;
+
+
+    
+  }
+
+  .skeleton__payInfo--w80 {
+    width:80%;
+  }
+
+  .skeleton__payInfo--h40 {
+   height:40px;
+  }
+

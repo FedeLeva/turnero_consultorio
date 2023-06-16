@@ -6,11 +6,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-
-        .text {
-            text-align:center;color:#fff;font-size:20px;margin:0;padding-bottom:2px;height:20px;margin-bottom:10px;
+      /* Globals */
+    body {
+      display:grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
+  min-height: 100vh;
+ 
+    }
+      footer {
+      overflow:hidden;
+      background: #f1dede;width:100%;
+     }
+hr {
+  width:50%;margin:auto;height:1px;margin-bottom:20px;margin-top:20px;
+}
+/* Payment Status */
+     .paymentStatus {
+width:100%;background:#14C38E;margin:auto;padding-bottom:50px;height:100%;
+     }
+     .paymentStatus__title {
+text-align:center;color:#fff;padding-top:20px;padding-bottom:20px;font-size:2rem;
+     }
+        .paymentStatus__text {
+            text-align:center;color:#fff;font-size:20px;margin:0;padding-bottom:2px;min-height:20px;margin-bottom:10px;
+            width:80%;margin:auto;
+            margin-bottom:10px;
         }
    
+  .paymentStatus__text--height {
+    height:auto;
+  }
+  .paymentStatus__text--inlinePL5 {
+    display:inline-block;padding-left:5px;
+  }
+/* Contact */
+  .contact__title {
+    margin-bottom: 20px;
+              letter-spacing: 3px;
+              text-transform: uppercase;
+              padding-top: 20px;
+  }
+  .contact__text {
+    line-height: 40px;
+                font-size: 16px;
+                font-weight: 800;
+                color: #343837;
+                margin-left: 10px;
+  }
+  /* Responsive */
+     @media (max-width:244px) {
+      h1 , h2 , h3 {
+        font-size:14px !important;
+      }
+
+      .paymentStatus__text {
+        font-size:14px;
+      }
+     }
+
+     /* Modifiers */
+     .displayN {
+      display:none;
+     }
     </style>
     <link rel="stylesheet" href="../style.css">
  
@@ -19,28 +77,25 @@
     <div class="banner">
         <img src="../banner.jpg" alt="" />
       </div>
-    <div style="width:100%;background:#14C38E;margin:auto;padding-bottom:50px;" >
-    <h1 style="text-align:center;color:#fff;padding-top:20px;padding-bottom:20px;font-size:2rem;" id="title">¡Listo! Se acreditó tu pago</h1>
-    <p  class="text" style="display:none;" id="warning">En estos momentos se esta procesando su pago , sin embargo ,  hemos reservado el turno que solicito. <br> En caso de que el pago se  rechace , se le enviara un correo notificandole que el turno se cancelo. <br></p>
-    <p class="text" >Se reservo tu turno:  <span style="display:inline-block;padding-left:5px;" id="fecha"></span> </p>
-    <p  class="text">Modalidad:  <span style="display:inline-block;padding-left:5px;" id="modalidad"></span> </p>
-    <p  class="text">Encuentro: <span style="display:inline-block;padding-left:5px;" id="encuentro"></span> </p>
-    <p  class="text">Precio: AR $  <span style="display:inline-block;padding-left:5px;" id="precio"></span></p> 
+    <div class="paymentStatus " >
+    <h1 class="paymentStatus__title" id="title">¡Listo! Se acreditó tu pago</h1>
+    <p  class="paymentStatus__text displayN paymentStatus__text--height"  id="warning">En estos momentos se esta procesando su pago , sin embargo ,  hemos reservado el turno que solicito. <br> En caso de que el pago se  rechace , se le enviara un correo notificandole que el turno se cancelo. <br></p>
+    <hr >
+    <p class="paymentStatus__text" >Se reservo tu turno:  <span class="paymentStatus__text--inlinePL5" id="fecha"></span> </p>
+    <p  class="paymentStatus__text">Modalidad:  <span class="paymentStatus__text--inlinePL5" id="modalidad"></span> </p>
+    <p  class="paymentStatus__text">Encuentro: <span class="paymentStatus__text--inlinePL5" id="encuentro"></span> </p>
+    <p  class="paymentStatus__text">Precio: AR $  <span class="paymentStatus__text--inlinePL5" id="precio"></span></p> 
     
    
-</div>
+</hr>
     </div>
 
-    <footer style="background: #f1dede;position:absolute;bottom:0;;width:100vw;">
+    <footer >
         <section class="contact">
           <h2
-            style="
-              margin-bottom: 20px;
-              letter-spacing: 3px;
-              text-transform: uppercase;
-              padding-top: 20px;
-            "
-            ;
+          class="contact__title"
+            
+            
           >
             Contacto
           </h2>
@@ -61,13 +116,8 @@
               </g>
             </svg>
             <p
-              style="
-                line-height: 40px;
-                font-size: 16px;
-                font-weight: 800;
-                color: #343837;
-                margin-left: 10px;
-              "
+            class="contact__text"
+             
             >
               Instagram
             </p>
@@ -89,12 +139,7 @@
               </g>
             </svg>
             <p
-              style="
-                line-height: 40px;
-                font-size: 18px;
-                margin-left: 10px;
-                color: #343837;
-              "
+             class="contact__text"
             >
               Email
             </p>
@@ -103,45 +148,45 @@
       </footer>
       <script>
         const {id , status} = JSON.parse(sessionStorage.getItem('MP_status'))  
-
         if (status == 'in_process') {
           document.querySelector("#title").textContent = "Estamos procesando tu pago!"
-          document.querySelector("#warning").style = "display:block;height:auto;"
+          document.querySelector("#warning").classList.remove('displayN')
+        } else {
+          document.querySelector("body > div:nth-child(2) > hr").classList.add('displayN')
         }
        
            getInfo =  async () => {
-              const res =  await fetch(`../backend/getReserva.php?id=${id}`)
+              const res =  await fetch(`../backend/getBooking.php?id=${id}`)
               const data = await res.json();
-            
-              renderizar(data[0]);
+              
+              render(data[0]);
             };
 
-         renderizar = async (data) => {
-          
+         render = async (data) => {
       
-          const texto =  obtenerNombreMes(data.mes) +  ` ${data.date}, ${data.año} - ${data.desde}`;
+          const text =  getMonthName(data.month) +  ` ${data.day}, ${data.year} - ${data.fromThe}`;
           
-            document.querySelector("#fecha").textContent = texto;
+            document.querySelector("#fecha").textContent = text;
        
-            document.querySelector("#modalidad").textContent = `${data.modalidad}`;
-            if(data.modalidad == 'Presencial') {
+            document.querySelector("#modalidad").textContent = `${data.modality}`;
+            if(data.modality == 'Presencial') {
               document.querySelector("#modalidad").textContent =    document.querySelector("#modalidad").textContent + ` (Calle 2568)`;
            }
-            document.querySelector("#encuentro").textContent = `${data.encuentro}`;
+            document.querySelector("#encuentro").textContent = `${data.meeting}`;
 
-            document.querySelector("#precio").textContent = `${data.precio}`
+            document.querySelector("#precio").textContent = `${data.price}`
          }
          getInfo();
     
        
-         function obtenerNombreMes (numero) {
-        let miFecha = new Date();
-        if (0 < numero && numero <= 12) {
-         miFecha.setMonth(numero - 1);
-          let fecha =  new Intl.DateTimeFormat('es-ES', { month: 'long'}).format(miFecha);
+         function getMonthName (number) {
+        let myDate = new Date();
+        if (0 < number && number <= 12) {
+          myDate.setMonth(number - 1);
+          let date =  new Intl.DateTimeFormat('es-ES', { month: 'long'}).format(myDate);
       
-       const   fechaString =  fecha.charAt(0).toUpperCase() + fecha.slice(1)
-         return fechaString;
+       const   dateString =  date.charAt(0).toUpperCase() + date.slice(1)
+         return dateString;
   } else {
     return null;
   }

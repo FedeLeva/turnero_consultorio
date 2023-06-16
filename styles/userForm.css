@@ -1,0 +1,89 @@
+    
+     
+      .formUserContainer {
+        display: flex; flex-wrap: wrap; align-items: flex-end;
+      }
+     
+   
+     .formUserContainer__inputContainer {
+      width: 216px;
+          margin-left: 29px;
+          margin-right: 24px;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          padding-bottom: 20px;
+          margin-top:30px;
+          margin:auto;
+          margin-bottom:20px;
+    }
+
+    .formUserContainer__cellPhoneNumberContainer {
+      display:flex;
+    }
+
+    .formUserContainer__input {
+      width:100%;max-width: 216px; height: 40px
+      
+    }
+
+    .formUserContainer__input--area {
+      max-width: 70px;
+    }
+    
+    .formUserContainer__input--phone{
+      max-width: 100px;
+    }
+
+/* form */
+    .form__labelError--user {
+      bottom:0;
+      width:100%;
+      text-align:left;
+    }
+
+      
+
+
+       
+    
+   
+
+      @media (max-width:215px) {
+        .formUserContainer__cellPhoneNumberContainer {
+          height:60px;
+        }
+       }
+
+
+       @media(max-width:315px) {
+        .formUserContainer__inputContainer {
+          margin-left:0;
+        }
+       }
+
+
+       @media (max-width:870px){
+        .formUserContainer__inputContainer {
+          margin-top:5px;
+        }
+      }
+
+ 
+
+
+    /* Skeleton */
+
+    .skeleton__formUserContainer {
+      display: flex; flex-wrap: wrap; align-items: flex-end
+    }
+
+    .skeleton__label--height {
+      height:21px;
+    }
+
+    .skeleton__input {
+      width:100%;max-width: 216px; height: 40px;margin-top:2px;
+    }
+
+   

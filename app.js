@@ -1,24 +1,28 @@
 const Formulario = {
   data() {
     return {
-      turnosReservados: {},
-      horariosSemanales: [],
-      datePersonal: {
-        nombre: null,
-        apellido: null,
+      turnReserved: [],
+
+      weeklySchedules: [],
+
+      personalInformation: {
+        name: null,
+
+        surname: null,
         email: null,
-        telefono: null,
+
+        phone: null,
       },
-      eventos: [],
-      activeHorario: false,
+      events: [],
       errors: {},
-      valueNombre: "Federico",
-      valueApellido: "Levatti",
-      valueMail: "federico.levatti@hotmail.com",
+      valueName: "Federico",
+      // valueApellido
+      valueSurname: "Levatti",
+      valueMail: "federico.levatti@gmail.com",
       valueArea: "342",
-      valueTelefono: "5082610",
+      valuePhone: "5082610",
       title: "Tu info",
-      meses: [
+      monthsInSpanish: [
         "Enero",
         "Febrero",
         "Marzo",
@@ -32,123 +36,178 @@ const Formulario = {
         "Noviembre",
         "Diciembre",
       ],
-      valueHorarioSelected: null,
-      valueHorario: null,
-      horario: false,
-      turnosDisponibles: [],
-      turnos: {
-        camposCompletados: {
-          turno: false,
-          calendario: false,
-          info: false,
-          pago: false,
+
+      valueScheduleSelected: null,
+      valueSchedule: null,
+      showSchedule: false,
+      turnsAvailable: [],
+
+      turns: {
+        completedFields: {
+          turn: false,
+
+          calendar: false,
+
+          information: false,
+
+          pay: false,
         },
-        actual: 2,
-        turno: false,
-        calendario: true,
-        info: false,
-        confirmarPago: false,
+        current: 1,
+
+        turn: false,
+
+        calendar: false,
+
+        information: false,
+
+        confirmPayment: false,
       },
-      valueModalidad: "Online",
-      valueEncuentro: "Primera Vez",
-      optionsModalidad: [
+
+      valueModality: "",
+
+      valueMeeting: "",
+
+      optionsModality: [
         { value: "Online", label: "Consultorio Online" },
         {
           value: "Presencial",
           label: "Consultorio Presencial (Dirección)",
         },
       ],
-      optionsMotivo: [
+
+      optionsMotives: [
         {
           value: "Primera Vez",
           label: "Primera vez",
-          precio: "3.000,00",
+
+          price: "3.000,00",
         },
         {
           value: "Seguimiento",
           label: "Seguimiento",
-          precio: "5.000,00",
+          price: "5.000,00",
         },
         {
           value: "Consulta",
           label: "Consulta",
-          precio: "3.000,00",
+          price: "3.000,00",
         },
       ],
-      fecha: {},
+
+      date: {},
       loading: true,
+      coupon: null,
     };
   },
 
   computed: {
-    indiceDia() {
-      const date = new Date(this.fecha.año, this.fecha.mes - 1, this.fecha.dia);
-      const fecha = dayjs(date);
-      return fecha.get("day");
+    // Get 	Day of Week (Sunday as 0, Saturday as 6)
+    // Return [0-6]
+    // indiceDia
+    getDay() {
+      const date = new Date(this.date.year, this.date.month - 1, this.date.day);
+      const date_dayJS = dayjs(date);
+      return date_dayJS.get("day");
     },
   },
   async mounted() {
-    const response = await fetch(`./backend/getHorarios.php`);
-    const data = await response.json();
-    data.forEach((e) => {
-      let array = this.horariosSemanales[e.indice_dia] || [];
+    switch (this.turns.current) {
+      case 1:
+        this.turns.turn = true;
+        break;
+      case 2:
+        this.turns.calendar = true;
+        break;
+      case 3:
+        this.turns.information = true;
+        break;
+      case 4:
+        this.turns.confirmPayment = true;
+        break;
+    }
 
-      this.horariosSemanales[e.indice_dia] = [
+    const response = await fetch(`./backend/getSchedule.php`);
+    const data = await response.json();
+    data.forEach((schedule) => {
+      let array = this.weeklySchedules[schedule.dayIndex] || [];
+      this.weeklySchedules[schedule.dayIndex] = [
         ...array,
         {
-          desde: e.desde,
-          hasta: e.hasta,
+          from: schedule.from,
+          to: schedule.to,
           select: false,
         },
       ];
     });
 
-    setTimeout(() => {
-      this.loading = false;
-    }, 2000);
+    //setTimeout(() => {
+    this.loading = false;
+    //}, 2000);
   },
   methods: {
+    async setBusyShifts(month, year) {
+      const response = await fetch(
+        `./backend/getReservedShifts.php?month=${month}&year=${year}`
+      );
+      const data = await response.json();
+      let busyShifts = [];
+      data.forEach((e) => {
+        let oldValue = busyShifts[e.day] || [];
+        busyShifts[e.day] = [...oldValue, e];
+      });
+      this.turnReserved = busyShifts;
+    },
+
     async initialCalendar({ date }) {
       const month = date.get("month") + 1;
       const year = date.get("year");
-      const response = await fetch(
-        `./backend/getTurnos.php?month=${month}&year=${year}`
-      );
-      const data = await response.json();
-      let turnos_ocupados = [];
-      data.forEach((e) => {
-        let oldValue = turnos_ocupados[e.dia] || [];
-        turnos_ocupados[e.dia] = [...oldValue, e];
-      });
-      this.turnosReservados = turnos_ocupados;
+      await this.setBusyShifts(month, year);
     },
-    getDay(fecha) {
-      const date = new Date(fecha.año, fecha.mes - 1, fecha.dia);
-      const fechaDay = dayjs(date);
-      return fechaDay.get("day");
+    getDayByDate({ year, month, day }) {
+      const date = new Date(year, month - 1, day);
+      const date_dayJS = dayjs(date);
+      return date_dayJS.get("day");
     },
-    changeValue(e) {
-      switch (e.tipo) {
-        case "modalidad":
-          this.valueModalidad = e.valor;
+    async valueChange(e) {
+      switch (e.type) {
+        case "modality":
+          this.valueModality = e.value;
           break;
-        case "encuentro":
-          this.valueEncuentro = e.valor;
+        case "meeting":
+          this.valueMeeting = e.value;
           break;
-        case "nombre":
-          this.valueNombre = e.valor;
+        case "name":
+          this.valueName = e.value;
           break;
-        case "apellido":
-          this.valueApellido = e.valor;
+        case "surname":
+          this.valueSurname = e.value;
           break;
         case "email":
-          this.valueMail = e.valor;
+          this.valueMail = e.value;
           break;
         case "area":
-          this.valueArea = e.valor;
+          this.valueArea = e.value;
           break;
-        case "telefono":
-          this.valueTelefono = e.valor;
+        case "phone":
+          this.valuePhone = e.value;
+          break;
+        case "coupon":
+          this.coupon = e.value;
+          const response = await fetch(
+            `./backend/getPatient.php?id=${this.coupon.id_patient}`
+          );
+          const data = await response.json();
+          const patient = data[0];
+          this.valueName = patient.name.trim();
+          this.valueSurname = patient.surname.trim();
+          this.valueMail = patient.mail.trim();
+          this.valueArea = patient.phone.split("-")[0];
+          this.valuePhone = patient.phone.split("-")[1];
+          this.personalInformation.name = this.valueName;
+          this.personalInformation.surname = this.valueSurname;
+          this.personalInformation.email = this.valueMail;
+          this.personalInformation.phone =
+            "+" + this.valueArea + " " + this.valuePhone;
           break;
       }
     },
@@ -168,38 +227,29 @@ const Formulario = {
       document.body.appendChild(form);
       form.submit();
     },
-    async cambiarMes(e) {
+    async changeMonth(e) {
       this.loading = true;
       const month = e.date.get("month") + 1;
       const year = e.date.get("year");
-      const response = await fetch(
-        `./backend/getTurnos.php?month=${month}&year=${year}`
-      );
-      const data = await response.json();
-      let turnos_ocupados = [];
-      data.forEach((e) => {
-        let oldValue = turnos_ocupados[e.dia] || [];
-        turnos_ocupados[e.dia] = [...oldValue, e];
-      });
-      this.turnosReservados = turnos_ocupados;
-      this.horario = false;
-      setTimeout(() => {
-        this.loading = false;
-
-        if (this.fecha.mes == e.mes) {
-          this.horario = true;
-        }
-      }, 2000);
+      await this.setBusyShifts(month, year);
+      this.showSchedule = false;
+      //setTimeout(() => {
+      this.loading = false;
+      if (this.date.month == e.month) {
+        this.showSchedule = true;
+      }
+      //}, 2000);
     },
-    async selectedFecha(date) {
-      let turnos_ocupados = this.turnosReservados[date.dia];
-      if (turnos_ocupados) {
-        this.turnosDisponibles = this.horariosSemanales[
-          this.getDay(date)
-        ].filter((elemento) => {
+
+    async selectDate(date) {
+      let busyShifts = this.turnReserved[date.day];
+      if (busyShifts) {
+        this.turnsAvailable = this.weeklySchedules[
+          this.getDayByDate(date)
+        ].filter((date) => {
           let find = true;
-          turnos_ocupados.forEach((e) => {
-            if (e.desde == elemento.desde) {
+          busyShifts.forEach((e) => {
+            if (e.from == date.from) {
               find = false;
             }
           });
@@ -207,28 +257,28 @@ const Formulario = {
           return find;
         });
       } else {
-        this.turnosDisponibles = this.horariosSemanales[this.getDay(date)];
+        this.turnsAvailable = this.weeklySchedules[this.getDayByDate(date)];
       }
 
-      if (this.valueHorarioSelected) {
-        let encontro = false;
+      if (this.valueScheduleSelected) {
+        let find = false;
 
-        this.turnosDisponibles.forEach((e) => {
-          if (e.desde == this.valueHorarioSelected.desde) {
-            encontro = true;
+        this.turnsAvailable.forEach((e) => {
+          if (e.from == this.valueScheduleSelected.from) {
+            find = true;
             e.select = true;
-            this.valueHorario =
+            this.valueSchedule =
               "" +
-              this.meses[date.mes - 1] +
+              this.monthsInSpanish[date.month - 1] +
               " " +
-              date.dia +
+              date.day +
               ",  " +
-              date.año +
+              date.year +
               " - " +
-              e.desde;
-            this.valueHorarioSelected = {
-              desde: e.desde,
-              hasta: e.hasta,
+              e.from;
+            this.valueScheduleSelected = {
+              from: e.from,
+              to: e.to,
               select: e.select,
             };
           } else {
@@ -236,224 +286,233 @@ const Formulario = {
           }
         });
 
-        if (!encontro) {
-          this.turnosDisponibles[0] = {
-            ...this.turnosDisponibles[0],
+        if (!find) {
+          this.turnsAvailable[0] = {
+            ...this.turnsAvailable[0],
             select: true,
           };
 
-          this.valueHorario =
+          this.valueSchedule =
             "" +
-            this.meses[date.mes - 1] +
+            this.monthsInSpanish[date.month - 1] +
             " " +
-            date.dia +
+            date.day +
             ",  " +
-            date.año +
+            date.year +
             " - " +
-            this.turnosDisponibles[0].desde;
+            this.turnsAvailable[0].from;
 
-          this.valueHorarioSelected = {
-            desde: this.turnosDisponibles[0].desde,
-            hasta: this.turnosDisponibles[0].hasta,
-            select: this.turnosDisponibles[0].select,
+          this.valueScheduleSelected = {
+            from: this.turnsAvailable[0].from,
+            to: this.turnsAvailable[0].to,
+            select: this.turnsAvailable[0].select,
           };
         }
       } else {
-        this.turnosDisponibles[0] = {
-          ...this.turnosDisponibles[0],
-          select: true,
-        };
+        this.turnsAvailable.forEach((turn, index) => {
+          if (index == 0) {
+            turn.select = true;
+          } else {
+            turn.select = false;
+          }
+        });
 
-        this.valueHorario =
+        this.valueSchedule =
           "" +
-          this.meses[date.mes - 1] +
+          this.monthsInSpanish[date.month - 1] +
           " " +
-          date.dia +
+          date.day +
           ",  " +
-          date.año +
+          date.year +
           " - " +
-          this.turnosDisponibles[0].desde;
-
-        this.valueHorarioSelected = {
-          desde: this.turnosDisponibles[0].desde,
-          hasta: this.turnosDisponibles[0].hasta,
-          select: this.turnosDisponibles[0].select,
+          this.turnsAvailable[0].from;
+        this.valueScheduleSelected = {
+          from: this.turnsAvailable[0].from,
+          to: this.turnsAvailable[0].to,
+          select: this.turnsAvailable[0].select,
         };
       }
 
       if (
-        this.fecha.año === date.año &&
-        this.fecha.dia === date.dia &&
-        this.fecha.mes === date.mes
+        this.date.year === date.year &&
+        this.date.day === date.day &&
+        this.date.month === date.month
       ) {
-        this.fecha = {};
-        this.valueHorarioSelected = "";
-        this.valueHorario = "";
-        this.horario = false;
+        this.date = {};
+        this.valueScheduleSelected = "";
+        this.valueSchedule = "";
+        this.showSchedule = false;
         return;
       }
 
-      this.fecha = date;
+      this.date = date;
 
-      if (this.horario) {
-      } else {
-        this.horario = true;
+      if (!this.showSchedule) {
+        this.showSchedule = true;
       }
     },
-
-    selectedHorario({ evento, fecha, horario }) {
-      this.turnosDisponibles.forEach((e) => {
-        if (e.desde != horario.desde) {
+    selectSchedule({ date, schedule }) {
+      this.turnsAvailable.forEach((e) => {
+        if (e.from != schedule.from) {
           e.select = false;
         } else {
           e.select = true;
         }
       });
-      this.valueHorarioSelected = horario;
-      this.valueHorario =
+      this.valueScheduleSelected = schedule;
+      this.valueSchedule =
         "" +
-        this.meses[fecha.mes - 1] +
+        this.monthsInSpanish[date.month - 1] +
         " " +
-        fecha.dia +
+        date.day +
         ",  " +
-        fecha.año +
+        date.year +
         " - " +
-        horario.desde;
+        schedule.from;
     },
     next(page) {
       if (this.loading) {
         return;
       }
-
       switch (page) {
         case 1:
-          this.errors.modalidad = null;
-          this.errors.encuentro = null;
-          if (!this.valueModalidad) {
-            this.errors.modalidad = "Seleccione una opcion";
+          this.errors.modality = null;
+          this.errors.meeting = null;
+          if (!this.valueModality) {
+            this.errors.modality = "Seleccione una opcion";
           }
-          if (!this.valueEncuentro) {
-            this.errors.encuentro = "Seleccione una opcion";
+          if (!this.valueMeeting) {
+            this.errors.meeting = "Seleccione una opcion";
           }
-          if (this.errors.encuentro || this.errors.modalidad) {
+          if (this.errors.meeting || this.errors.modality) {
             return;
           }
 
-          this.turnos.turno = false;
+          this.turns.turn = false;
 
-          this.turnos.actual++;
-          this.turnos.calendario = true;
-          this.turnos.camposCompletados.turno = true;
+          this.turns.current++;
+          this.turns.calendar = true;
+          this.turns.completedFields.turn = true;
           this.title = "Fecha y Hora";
 
           break;
         case 2:
-          if (!this.fecha || !this.valueHorario) {
+          if (!this.date || !this.valueSchedule) {
             return;
           }
-          this.turnos.calendario = false;
-          this.turnos.actual++;
-          this.turnos.info = true;
-          this.turnos.camposCompletados.calendario = true;
+          this.turns.calendar = false;
+          this.turns.current++;
+          this.turns.information = true;
+          this.turns.completedFields.calendar = true;
           this.title = "Tu info";
 
           break;
         case 3:
           const validEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
-          this.errors.nombre = null;
-          this.errors.apellido = null;
+          this.errors.name = null;
+          this.errors.surname = null;
           this.errors.mail = null;
-          this.errors.telefono = null;
-          if (!this.valueNombre) {
-            this.errors.nombre = "Ingrese su nombre";
+          this.errors.phone = null;
+          if (!this.valueName) {
+            this.errors.name = "Ingrese su nombre";
           }
-          if (!this.valueApellido) {
-            this.errors.apellido = "Ingrese su apellido";
+          if (!this.valueSurname) {
+            this.errors.surname = "Ingrese su apellido";
           }
           if (!this.valueMail || !validEmail.test(this.valueMail)) {
             this.errors.mail = "Ingrese su Mail";
           }
           if (
             !this.valueArea ||
-            !this.valueTelefono ||
+            !this.valuePhone ||
             !Number(this.valueArea) ||
-            !Number(this.valueTelefono) ||
+            !Number(this.valuePhone) ||
             String(this.valueArea).length < 2 ||
             String(this.valueArea).length > 4 ||
-            String(this.valueTelefono).length > 8 ||
-            String(this.valueTelefono).length < 6
+            String(this.valuePhone).length > 8 ||
+            String(this.valuePhone).length < 6
           ) {
-            this.errors.telefono = "Ingrese su telefono / celular";
+            this.errors.phone = "Ingrese su telefono / celular";
           }
           if (
-            this.errors.nombre ||
-            this.errors.apellido ||
+            this.errors.name ||
+            this.errors.surname ||
             this.errors.mail ||
-            this.errors.telefono
+            this.errors.phone
           ) {
             return;
           }
 
-          this.turnos.actual++;
-          this.datePersonal.nombre = this.valueNombre;
-          this.datePersonal.apellido = this.valueApellido;
-          this.datePersonal.email = this.valueMail;
-          this.datePersonal.telefono =
-            "+" + this.valueArea + " " + this.valueTelefono;
-          this.turnos.info = false;
+          this.turns.current++;
+          this.personalInformation.name = this.valueName;
+          this.personalInformation.surname = this.valueSurname;
+          this.personalInformation.email = this.valueMail;
+          this.personalInformation.phone =
+            "+" + this.valueArea + " " + this.valuePhone;
+          this.turns.information = false;
 
-          this.turnos.camposCompletados.info = true;
-          this.turnos.confirmarPago = true;
+          this.turns.completedFields.information = true;
+          this.turns.confirmPayment = true;
           this.title = "Confirmar pago";
 
           break;
         case 4:
-          let precio;
-          this.optionsMotivo.forEach((e) => {
-            if (e.value === this.valueEncuentro) {
-              precio = e.precio.replaceAll(".", "");
-              precio = precio.split(",")[0];
+          let price;
+          this.optionsMotives.forEach((e) => {
+            if (e.value === this.valueMeeting) {
+              price = e.price.replaceAll(".", "");
+              price = price.split(",")[0];
             }
           });
+          let formData = {
+            name: this.valueName.trim(),
+            surname: this.valueSurname.trim(),
+            mail: this.valueMail.trim(),
+            phone: "" + this.valueArea.trim() + "-" + this.valuePhone.trim(),
+            schedule: JSON.stringify({
+              from: this.valueScheduleSelected.from.trim(),
+              to: this.valueScheduleSelected.to.trim(),
+              indexDay: this.getDay,
+            }),
+            date: JSON.stringify({
+              ...this.date,
+              nameMonth: this.monthsInSpanish[this.date.month - 1].trim(),
+            }),
+            modality: this.valueModality.trim(),
+            meeting: this.valueMeeting.trim(),
+            price,
+          };
 
-          this.post("./pago/checkout2.php", {
-            nombre: this.valueNombre,
-            apellido: this.valueApellido,
-            email: this.valueMail,
-            telefono: "" + this.valueArea + this.valueTelefono,
-            horario: JSON.stringify({
-              desde: this.valueHorarioSelected.desde,
-              hasta: this.valueHorarioSelected.hasta,
-              indice: this.indiceDia,
-            }),
-            fecha: JSON.stringify({
-              ...this.fecha,
-              nombreMes: this.meses[this.fecha.mes - 1],
-            }),
-            modalidad: this.valueModalidad,
-            encuentro: this.valueEncuentro,
-            precio,
-          });
+          if (this.coupon) {
+            formData = {
+              ...formData,
+              MP_identifier: this.coupon.MP_identifier,
+            };
+
+            this.post("./backend/createReservation.php", formData);
+          } else {
+            this.post("./pago/pagoPro.php", formData);
+          }
       }
     },
     back(page) {
       switch (page) {
         case 2:
-          this.turnos.turno = true;
-          this.turnos.actual--;
-          this.turnos.calendario = false;
+          this.turns.turn = true;
+          this.turns.current--;
+          this.turns.calendar = false;
           this.title = "Tu turno";
           break;
         case 3:
-          this.turnos.info = false;
-          this.turnos.calendario = true;
-          this.turnos.actual--;
+          this.turns.information = false;
+          this.turns.calendar = true;
+          this.turns.current--;
           this.title = "Fecha y Hora";
           break;
         case 4:
-          this.turnos.actual--;
-          this.turnos.confirmarPago = false;
-          this.turnos.info = true;
+          this.turns.current--;
+          this.turns.confirmPayment = false;
+          this.turns.information = true;
           this.title = "Tu info";
           break;
       }

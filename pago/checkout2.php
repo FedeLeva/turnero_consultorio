@@ -1,31 +1,28 @@
 <?php 
-
-
-
 // Paciente
-$nombre = $_POST['nombre'];
-$apellido = $_POST['apellido'];
-$mail = $_POST['email'];
-$telefono = $_POST['telefono'];
+$name = $_POST['name'];
+$surname = $_POST['surname'];
+$mail = $_POST['mail'];
+$phone = $_POST['phone'];
 //Fecha
-$fecha = json_decode($_POST['fecha'] , true );
-$dia = $fecha['dia'];
-$mes = $fecha['mes'];
-$año = $fecha['año'];
-$nombreMes = $fecha['nombreMes'];
+$date = json_decode($_POST['date'] , true );
+$day = $date['day'];
+$month = $date['month'];
+$year = $date['year'];
+$nameMonth = $date['nameMonth'];
 // Horario
-$horario = json_decode($_POST['horario'] , true );
-$desde = $horario['desde'];
-$hasta = $horario['hasta'];
-$indice_dia = $horario['indice'];
+$schedule = json_decode($_POST['schedule'] , true );
+$from = $schedule['from'];
+$to = $schedule['to'];
+$indexDay = $schedule['indexDay'];
 // Reserva
-$encuentro = $_POST['encuentro'];
-$modalidad = $_POST['modalidad'];
+$meeting = $_POST['meeting'];
+$modality = $_POST['modality'];
 // Datos para crear el checkout
-$precio = intval($_POST['precio']);
-$descripcion = '[Especialidad] [Nombre] ' . $encuentro;
-$servicio = '[Especialidad]  ' . $encuentro . "  " . $modalidad . " (Nombre)";
-$horaCliente =  $nombreMes . " " . $dia . ", " . $año . " - " . $desde;
+$price = intval($_POST['price']);
+$description = '[Especialidad] [Nombre] ' . $meeting;
+$service = '[Especialidad]  ' . $meeting . "  " . $modality . " (Nombre)";
+$customerTime =  $nameMonth . " " . $day . ", " . $year . " - " . $from;
 
 
 
@@ -51,12 +48,12 @@ $horaCliente =  $nombreMes . " " . $dia . ", " . $año . " - " . $desde;
     <script src="https://unpkg.com/vue@3"></script>
     <title>Checkout API</title>
   <style>
+
+    /* Globals */
       p {
     margin:0;
   }
-  </style>
 
-<style>
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
@@ -65,38 +62,34 @@ input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px #fff inset !important;
     background:white !important;
 }
-    #form-checkout {
+hr {
+  height:1px;
+  background-color:#E9E8E8;
+  border:none;
+}
+/* form-checkout */
+    #formCheckout {
       display: flex;
       flex-direction: column;
       max-width: 600px;
     }
 
-    .container {
-      height: 18px;
+    .formCheckout__input {
       display: inline-block;
-      border: 1px solid rgb(118, 118, 118);
-      border-radius: 2px;
-      padding: 1px 2px;
-    }
-    .container {
-    
-    display: inline-block;
-    border-radius: 2px;
-    padding: 1px 2px;
    border:none;
     outline: 1px solid rgb(118, 118, 118);
-    height:35px;
+    height:40px;
     border-radius:5px;
     box-sizing:border-box;
     padding:5px;
     padding-left:10px;
     font-size:14px;
     background-color :#fff;
-  }
+    }
 
- 
 
-  .btn-process{
+
+  .formCheckout__payButton{
   font-size: 16px;
   font-family: 'Montserrat', sans-serif;
   background-color: #256EFF;
@@ -112,40 +105,52 @@ input:-webkit-autofill:active{
   cursor:pointer;
 }
 
-    .label {
+
+
+    .formCheckout__label {
       margin:0;
     }
 
-
-    .msj_error {
+  
+    
+    .formCheckout__errorMessage {
         color:#F23D4F;
       font-size:13px;
     }
 
-   .height {
-    height:80px;
+
+
+   .formCheckout__inputContainer {
+    min-height:80px;
+    margin-top:5px;
    }
     
 
-  .borderRed {
+  
+  .formCheckout__input--borderRed {
     outline: 1px solid #F23D4F;
   }
 
-  .focus {
+ 
+  .formCheckout__input--focus {
     outline: 2px solid #000;
   }
-#form-checkout__submit {
+#formCheckout__submit {
   transition: 0.3s background;
 }
-  #form-checkout__submit:hover {
+  #formCheckout__submit:hover {
     
     cursor:pointer;
   }
-  .btn-ring{
+
+
+
+
+  .formCheckout__ring{
   display: none;
 }
 
-  .btn-ring:after {
+  .formCheckout__ring:after {
   content: "";
   display: block;
   width: 15px;
@@ -157,12 +162,129 @@ input:-webkit-autofill:active{
   animation: ring 1.2s linear infinite;
 }
 
-hr {
-  height:1px;
-  background-color:#E9E8E8;
-  border:none;
+.formCheckout__safetyInformationContainer {
+  display:flex;margin:auto;
 }
 
+.formCheckout__documentHolderContainer {
+  display:flex;
+}
+
+.formCheckout__inputContainer--ml10 {
+  margin-left:10px;
+}
+
+.formCheckout__input--wm159 {
+  width:100%;max-width:159px;
+}
+
+.formCheckout__input--wm334 {
+  width:100%;max-width:334px;
+}
+.formCheckout__input--wm280 {
+  width:100%;max-width:280px;
+}
+.formCheckout__input--wm300 {
+
+  max-width:300px;width:100%;
+}
+/* informationContainer */
+.informationContainer {
+  width:42%;
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
+.informationContainer__text {
+  text-transform:uppercase;font-size:14px;
+}
+
+.informationContainer__text--service {
+  font-size:16px;
+}
+
+.informationContainer--border {
+  min-height:200px;;margin:auto;border-radius:3px;padding:20px;border:1px solid #E9E8E8;
+}
+
+.informationContainer__title {
+  text-align:left;margin-left:10px;font-size:1.2em
+}
+
+/* CheckoutContainer */
+.CheckoutContainer {
+  display:flex;width:90%;margin:auto;
+}
+
+.CheckoutContainer__formContainer {
+  width:58%;
+}
+
+
+
+
+/* Responsive */
+@media(max-width:700px){
+  .CheckoutContainer {
+    flex-direction:column;
+  }
+  .CheckoutContainer__formContainer {
+  width:100%;
+}
+.informationContainer {
+  width:100%;
+}
+
+}
+
+
+@media (max-width:340px) {
+  .formCheckout__safetyInformationContainer {
+    flex-direction:column;
+  }
+
+
+  .formCheckout__inputContainer--ml10 {
+  margin-left:0;
+}
+}
+
+@media(max-width:322px) {
+  .formCheckout__documentHolderContainer  {
+    flex-wrap:wrap;
+  }
+
+  #formCheckout__identificationNumber {
+    margin-top:5px;
+    width:100%;
+  }
+}
+
+@media(max-width:200px) {
+  h1,h2,h3,h4 {
+    font-size:15px;
+  }
+
+  .informationContainer__text {
+  text-transform:none;
+}
+
+.informationContainer--border {
+  padding:0;
+}
+}
+
+@media (max-width:128px) {
+   .formCheckout__payButton {
+    padding:0;
+   }
+
+   .informationContainer__text--service {
+  font-size:14px;
+}
+}
+
+/* Animations */
 @keyframes ring {
   0% {
     transform: rotate(0deg);
@@ -172,6 +294,30 @@ hr {
   }
 }
 
+/* Modifiers */
+
+.mt-10 {
+  margin-top:10px;
+}
+
+.mr-5 {
+  margin-right:5px;
+}
+
+.w80 {
+  width:80%;
+}
+.w70 {
+  width:70%;
+}
+.pt-10 {
+  padding-top:10px;
+}
+
+.flexWrap {
+  display:flex;flex-wrap:wrap;
+}
+
 
   </style>
 </head>
@@ -179,119 +325,125 @@ hr {
 <h1>Checkout -- Core </h1>
   <div id="formulario">
 
-  <div style="display:flex;width:90%;margin:auto;">
-  <div style="width:58%;">
+  <div class="CheckoutContainer" >
+  <div class="CheckoutContainer__formContainer" >
 <h1>Realiza tu pago</h1>
-  <form id="form-checkout" action="http://localhost/web/pago/process_payment/checkout2.php" method="POST" @submit="submitHandler($event)">
-    <div  class="height" id="cardNumber" >
-    <p class="label">Número de tarjeta</p>
-    <div id="form-checkout__cardNumber" :class="{container : true , borderRed :  errors.nroTarjeta , focus : focus.nroTarjeta}" style="width:100%;max-width:334px;height:40px;position:relative;">
+  <form id="formCheckout" action="http://localhost/web/pago/process_payment/checkout2.php" method="POST" @submit="submitHandler($event)">
+    <div  class="formCheckout__inputContainer" id="cardNumber" >
+    <p class="formCheckout__label">Número de tarjeta</p>
+    <div id="formCheckout__cardNumber" :class="{'formCheckout__input' : true , 'formCheckout__input--wm334' : true , 'formCheckout__input--borderRed' :  errors.cardNumber , 'formCheckout__input--focus' : elementFocused.cardNumber}" >
     </div>
-    <p  v-if="errors.nroTarjeta" class="msj_error"  >{{errors.nroTarjeta}}</p>
+    <p  v-if="errors.cardNumber" class="formCheckout__errorMessage"  >{{errors.cardNumber}}</p>
   </div>
   
 
-   <div  class="height" id="securityCode">
-   <div style="display:flex;margin:auto">
-     <div >
-      <p class="label">Vencimiento</p>
-       <div style="width:100%;max-width:159px;" id="form-checkout__expirationDate" :class="{container : true , borderRed :  errors.vencimiento , focus : focus.vencimiento}">
+   <div  class="formCheckout__inputContainer" id="securityCode">
+   <div class="formCheckout__safetyInformationContainer">
+     <div class="formCheckout__inputContainer" >
+      <p class="formCheckout__label">Vencimiento</p>
+       <div  id="formCheckout__expirationDate" :class="{'formCheckout__input' : true , 'formCheckout__input--wm159' : true ,'formCheckout__input--borderRed' :  errors.expiration , 'formCheckout__input--focus' : elementFocused.expiration}">
        </div>
-       <p  class="msj_error" v-if="errors.vencimiento" >{{errors.vencimiento}}</p>
+       <p  class="formCheckout__errorMessage" v-if="errors.expiration" >{{errors.expiration}}</p>
     </div>
-     <div style="margin-left:10px;">
-      <p class="label">Código de seguridad</p>
-     <div  style="width:100%;max-width:159px;"  id="form-checkout__securityCode" :class="{container : true , borderRed :  errors.codigo , focus : focus.codigo}"></div>
-     <p  class="msj_error" v-if="errors.codigo" >{{errors.codigo}}</p>
+     <div class="formCheckout__inputContainer--ml10 formCheckout__inputContainer">
+      <p class="formCheckout__label">Código de seguridad</p>
+     <div    id="formCheckout__securityCode" :class="{'formCheckout__input' : true , 'formCheckout__input--wm159' : true, 'formCheckout__input--borderRed' :  errors.code , 'formCheckout__input--focus' : elementFocused.code}"></div>
+     <p  class="formCheckout__errorMessage" v-if="errors.code" >{{errors.code}}</p>
        </div>
     </div>
 
    </div>
   
    
-    <div id="cardholderName"  class="height">
-    <p class="label">Nombre del titular como aparece en la tarjeta</p>
-    <input  style="max-width:334px;width:100%;" type="text" id="form-checkout__cardholderName" v-model="titularTarjeta" :class="{container : true , borderRed :  errors.titularTarjeta , focus : focus.titularTarjeta}" autocomplete="off" placeholder="Titular de la tarjeta" @focus="enfocar('titularTarjeta')" @blur="desenfocar('titularTarjeta')" />
-    <p  v-if="errors.titularTarjeta" class="msj_error" >Ingrese el nombre del titular</p>
+    <div id="cardholderName"  class="formCheckout__inputContainer">
+    <p class="formCheckout__label">Nombre del titular como aparece en la tarjeta</p>
+    <input   type="text" id="formCheckout__cardholderName" v-model="cardHolder" :class="{'formCheckout__input' : true , 'formCheckout__input--wm334' : true ,'formCheckout__input--borderRed' :  errors.cardHolder , 'formCheckout__input--focus' : elementFocused.cardHolder}" autocomplete="off" placeholder="Titular de la tarjeta" @focus="focus('cardHolder')" @blur="blur('cardHolder')" />
+    <p  v-if="errors.cardHolder" class="formCheckout__errorMessage" >Ingrese el nombre del titular</p>
     </div>
-    <div  class="height">
-    <p class="label">Banco Emisor</p>
+    <div  class="formCheckout__inputContainer">
+    <p class="formCheckout__label">Banco Emisor</p>
    
-<select id="form-checkout__issuer" name="issuer" style="width:100%;max-width:280px;"  :class="{container : true , focus : focus.emisor}" @focus="enfocar('emisor')" @blur="desenfocar('emisor')" >
-      <option style="margin-top:10px;" value="" disabled selected>Banco emisor</option>
+<select id="formCheckout__issuer" name="issuer"   :class="{'formCheckout__input' : true , 'formCheckout__input--wm280' : true , 'formCheckout__input--focus' : elementFocused.emisor}" @focus="focus('emisor')" @blur="blur('emisor')" >
+      <option class="mt-10" value="" disabled selected>Banco emisor</option>
     </select>
 
 
 
     </div>
  
-    <div class="height" >
-    <p class="label">Cuotas</p>
-    <select style="width:280px;" :class="{container:true , focus : focus.cuotas}" id="form-checkout__installments" name="installments" @focus="enfocar('cuotas')" @blur="desenfocar('cuotas')">
+    <div class="formCheckout__inputContainer" >
+    <p class="formCheckout__label">Cuotas</p>
+    <select  :class="{'formCheckout__input':true , 'formCheckout__input--wm280' : true , 'formCheckout__input--focus' : elementFocused.cuotas}" id="formCheckout__installments" name="installments" @focus="focus('cuotas')" @blur="blur('cuotas')">
       <option  value="" disabled selected>Cuotas</option>
     </select>
     </div>
    
-    <div  id="identificationNumber" class="height" >
-    <p class="label" style="margin-right:5px;">Documento del titular</p>
-    <div style="display:flex;">
-    <select id="form-checkout__identificationType" name="identificationType" :class="{container : true , borderRed :  errors.documento , focus: focus.tipoDocumento}" style="margin-right:5px;" @focus="enfocar('tipoDocumento')" @blur="desenfocar('tipoDocumento')">
+    <div  id="identificationNumber" class="formCheckout__inputContainer" >
+    <p class="formCheckout__label mr-5" >Documento del titular</p>
+    <div class="formCheckout__documentHolderContainer">
+      
+      <select id="formCheckout__identificationType" name="identificationType" :class="{'formCheckout__input' : true , 'formCheckout__input--borderRed' :  errors.document , 'formCheckout__input--focus': elementFocused.tipoDocumento , 'mr-5' : true }"  @focus="focus('tipoDocumento')" @blur="blur('tipoDocumento')">
       <option value="" disabled selected>Tipo de documento</option>
     </select>
+      
+   
+   <input autocomplete="off" type="text" 
+    id="formCheckout__identificationNumber" name="identificationNumber" placeholder="Numero de documento" :class="{'formCheckout__input' : true , 'formCheckout__input--borderRed' :  errors.document , 'formCheckout__input--focus' : elementFocused.document  }"  v-model="document"  @focus="focus('document')" @blur="blur('document')"/>
+   
 
 
-    <input autocomplete="off" type="text" id="form-checkout__identificationNumber" name="identificationNumber" placeholder="Numero de documento" :class="{container : true , borderRed :  errors.documento , focus : focus.documento}"  v-model="documento"  @focus="enfocar('documento')" @blur="desenfocar('documento')"/>
+
     </div>
-    <p  v-if="errors.documento" class="msj_error">{{errors.documento}}</p>
+    <p  v-if="errors.document" class="formCheckout__errorMessage">{{errors.document}}</p>
     </div>
  
-    <div id="email" class="height">
-    <p class="label">E-mail</p>
-    <input type="email" id="form-checkout__email" name="email" placeholder="E-mail" v-model="email"  :class="{container : true , borderRed :  errors.email , focus : focus.email}" style="max-width:334px;width:100%;" @focus="enfocar('email')" @blur="desenfocar('email')"/>
+    <div id="email" class="formCheckout__inputContainer">
+    <p class="formCheckout__label">E-mail</p>
+    <input type="email" id="formCheckout__email" name="email" placeholder="E-mail" v-model="email"  :class="{'formCheckout__input' : true , 'formCheckout__input--wm334' : true,'formCheckout__input--borderRed' :  errors.email , 'formCheckout__input--focus' : elementFocused.email }"  @focus="focus('email')" @blur="blur('email')"/>
 
-    <p  v-if="errors.email" class="msj_error">{{errors.email}}</p>
+    <p  v-if="errors.email" class="formCheckout__errorMessage">{{errors.email}}</p>
     </div>
     <input id="token" name="token" type="hidden">
     <input id="paymentMethodId" name="paymentMethodId" type="hidden">
-    <input id="transactionAmount" name="transactionAmount" type="hidden" value=<?php echo $precio?>>
-    <input id="description" name="description" type="hidden" value="value=<?php echo $servicio?>">
-<input type="hidden" name="nombre" value="<?php echo $nombre  ?>">
-<input type="hidden" name="apellido" value="<?php echo $apellido  ?>">
+    <input id="transactionAmount" name="transactionAmount" type="hidden" value=<?php echo $price?>>
+    <input id="description" name="description" type="hidden" value="value=<?php echo $service?>">
+<input type="hidden" name="name" value="<?php echo $name  ?>">
+<input type="hidden" name="surname" value="<?php echo $surname  ?>">
 <input type="hidden" name="mail" value="<?php echo $mail  ?>">
-<input type="hidden" name="telefono" value="<?php echo $telefono  ?>">
- <input type="hidden" name="fecha" value='<?php echo $_POST['fecha']  ?>'>
- <input type="hidden" name="horario" value='<?php echo $_POST['horario']  ?>'>
- <input type="hidden" name="encuentro" value='<?php echo  $encuentro ?>'>
- <input type="hidden" name="modalidad" value='<?php echo  $modalidad ?>'>
- <input type="hidden" name="precio" value='<?php   echo number_format(
-   $precio , 2 , '.' , '.') ?>'>
-    <button    type="submit" id="form-checkout__submit" class="container btn-process" style="max-width:300px;width:100%;"> <span>Pagar</span>   <span class="btn-ring"></span></button>
+<input type="hidden" name="phone" value="<?php echo $phone  ?>">
+ <input type="hidden" name="date" value='<?php echo $_POST['date']  ?>'>
+ <input type="hidden" name="schedule" value='<?php echo $_POST['schedule']  ?>'>
+ <input type="hidden" name="meeting" value='<?php echo  $meeting ?>'>
+ <input type="hidden" name="modality" value='<?php echo  $modality ?>'>
+ <input type="hidden" name="price" value='<?php   echo number_format(
+   $price , 2 , '.' , '.') ?>'>
+    <button    type="submit" id="formCheckout__submit" class="formCheckout__input formCheckout__payButton formCheckout__input--wm300" > <span>Pagar</span>   <span class="formCheckout__ring"></span></button>
   </form>
   
   </div>
-  <div style="width:42%;">
-  <div style="min-height:200px;;margin:auto;border-radius:3px;padding:20px;border:1px solid #E9E8E8;">
-  <p style="text-align:left;margin-left:10px;font-size:1.2em;">Detalle de tu compra</p>
-  <div style="display:flex;flex-wrap:wrap;">
-       <div style="width:80%;">    <h2 >Producto</h2></div>
+  <div class="informationContainer" >
+  <div class="informationContainer--border" >
+  <p class="informationContainer__title">Detalle de tu compra</p>
+  <div class="flexWrap">
+       <div class="w80">    <h2 >Producto</h2></div>
        <div> <h2>Precio</h2></div>
-       <div style="width:80%;"><p style="text-transform:uppercase;font-size:14px;"><?php echo $descripcion?> X1</p></div><p>$ <?php echo number_format(
-   $precio , 0 , '.' , '.') ?></p><div></div>
+       <div class="w80"><p class="informationContainer__text" ><?php echo $description?> X1</p></div><p>$ <?php echo number_format(
+   $price , 0 , '.' , '.') ?></p><div></div>
        </div>
        <hr>
-       <p style="padding-top:10px;">Información sobre la reserva:</p>
-       <p>Hora del cliente: <?php echo $horaCliente ?> </p>
-       <p>Servicio: <?php echo $servicio?> </p>
+       <p class="pt-10">Información sobre la reserva:</p>
+       <p>Hora del cliente: <?php echo $customerTime ?> </p>
+       <p class="informationContainer__text--service">Servicio: <?php echo $service?> </p>
        <?php 
-        if ($modalidad == 'Presencial') {
+        if ($modality == 'Presencial') {
           echo '       <p>Dirección: Calle 2568 </p>';
         }
        ?>
        <hr>
-       <div style="display:flex;flex-wrap:wrap;">
-       <div style="width:70%;">    <h2 >Total</h2></div>
+       <div class="flexWrap">
+       <div class="w70">    <h2 >Total</h2></div>
        <div> <h2>$ <?php echo number_format(
-   $precio , 0 , '.' , '.');?></h2></div>
+   $price , 0 , '.' , '.');?></h2></div>
     
      
        </div>
@@ -318,96 +470,96 @@ hr {
 
         </script>
         <script>
-          const Formulario = {
+          const form = {
             mounted() {
          
 
-                 const {cardNumberElement , expirationDateElement , securityCodeElement}  = inicializar();
+                 const {cardNumberElement , expirationDateElement , securityCodeElement}  = initialize();
  
                  cardNumberElement.on("focus", (e) => {
-                this.enfocar('nroTarjeta');
+                this.focus('cardNumber');
                   });
 
                 cardNumberElement.on("blur", (e) => {
-               this.desenfocar('nroTarjeta');
+               this.blur('cardNumber');
     
                     });
                     expirationDateElement.on("focus", (e) => {
-                this.enfocar('vencimiento');
+                this.focus('expiration');
                   });
 
                   expirationDateElement.on("blur", (e) => {
-               this.desenfocar('vencimiento');
+               this.blur('expiration');
     
                     });
 
                     securityCodeElement.on("focus", (e) => {
-                this.enfocar('codigo');
+                this.focus('code');
                   });
 
                   securityCodeElement.on("blur", (e) => {
-               this.desenfocar('codigo');
+               this.blur('code');
     
                     });
 
             } , 
             data() {
               return {
-                titularTarjeta : '' ,
-                documento : '' , 
+                cardHolder : '' ,
+                document : '' , 
                 email : '' , 
                 errors : {} ,
-                focus : {}
+                elementFocused : {}
               }
             
             } , 
             methods: {
-              enfocar(name) {
-                this.focus[name] = true;
+              focus(name) {
+                this.elementFocused[name] = true;
                   this.errors[name] = null;
               } , 
-              desenfocar(name) {
-                this.focus[name] = false;
+              blur(name) {
+                this.elementFocused[name] = false;
               } , 
               async submitHandler(e) {
 
                 const validEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
-                const formElement = document.getElementById('form-checkout');
-               console.log(formElement)
+                const formElement = document.getElementById('formCheckout');
+             
                 this.errors = {};
                const error = await createCardToken(e);
                    if (error) {
-                    console.log(error);
+                   
                     error.forEach(e => {
 
                     
                 switch(e.field) {
                     case 'cardNumber' : 
                    
-                      this.errors.nroTarjeta = "Ingrese bien su numero de tarjeta";
+                      this.errors.cardNumber = "Ingrese bien su numero de tarjeta";
                       break; 
                   case "expirationDate" :
-                    this.errors.vencimiento = "Vencimiento invalido";
+                    this.errors.expiration = "Vencimiento invalido";
                     break; 
                   case "expirationMonth" : 
-                    this.errors.vencimiento = "Vencimiento invalido";
+                    this.errors.expiration = "Vencimiento invalido";
                     break; 
                   case "expirationYear" :
-                    this.errors.vencimiento = "Vencimiento invalido";
+                    this.errors.expiration = "Vencimiento invalido";
                     break; 
                   case 'securityCode' :
-                    this.errors.codigo = "Código de seguridad invalido";
+                    this.errors.code = "Código de seguridad invalido";
                     break; 
                    
                }
                })
                     }
-               if (!this.titularTarjeta) {
-                  this.errors.titularTarjeta = "Ingrese el titular de la tarjeta"
+               if (!this.cardHolder) {
+                  this.errors.cardHolder = "Ingrese el titular de la tarjeta"
                   
                } 
-               if (!this.documento ) {
-                this.errors.documento = "Ingrese el  documento del titular"
+               if (!this.document ) {
+                this.errors.document = "Ingrese el  documento del titular"
                }   
 
                
@@ -416,7 +568,7 @@ hr {
                }
            
               
-               if (error  ||  this.errors.titularTarjeta || this.errors.documento || this.errors.email) {
+               if (error  ||  this.errors.cardHolder || this.errors.document || this.errors.email) {
                 return;
                }
            
@@ -427,9 +579,8 @@ hr {
 
 
           }
-          const App = Vue.createApp(Formulario);
+          const App = Vue.createApp(form);
           App.mount("#formulario");
         </script>
-   
 </body>
 </html>

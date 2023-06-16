@@ -1,5 +1,28 @@
 <?php
-
+// Paciente
+$name = $_POST['name'];
+$surname = $_POST['surname'];
+$mail = $_POST['mail'];
+$phone = $_POST['phone'];
+//Fecha
+$date = json_decode($_POST['date'] , true );
+$day = $date['day'];
+$month = $date['month'];
+$year = $date['year'];
+$nameMonth = $date['nameMonth'];
+// Horario
+$schedule = json_decode($_POST['schedule'] , true );
+$from = $schedule['from'];
+$to = $schedule['to'];
+$indexDay = $schedule['indexDay'];
+// Reserva
+$meeting = $_POST['meeting'];
+$modality = $_POST['modality'];
+// Datos para crear el checkout
+$price = $_POST['price'];
+$description = '[Especialidad] [Nombre] ' . $meeting;
+$service = '[Especialidad]  ' . $meeting . "  " . $modality . " (Nombre)";
+$customerTime =  $nameMonth . " " . $day . ", " . $year . " - " . $from;
 // SDK de Mercado Pago
 require __DIR__ .  '/vendor/autoload.php';
 // Agrega credenciales
@@ -14,19 +37,29 @@ $preference->back_urls = array(
 );
 // Crea un ítem en la preferencia
 $item = new MercadoPago\Item();
-$item->title = 'Mi producto';
+$item->title = $description;
 $item->quantity = 1;
-$item->unit_price = 75.56;
+$item->description = $service;
+$item->unit_price = $price;
 $preference->items = array($item );
 $payer = new MercadoPago\Payer();
-$payer->email = "felipe@hotmail.com";
-$payer->name = "Federico";
-$payer->surname = "Levatti";
+$payer->email = $mail;
+$payer->name =  $name;
+$payer->surname = $surname;
 $payer->phone = array(
-    "area_code" => "342",
-    "number" => "5698536",
+    "area_code" => explode("-" , $phone)[0],
+    "number" => explode("-" , $phone)[1],
 );
 $preference->payer = $payer;
+$preference->metadata = array(
+    "email" => $mail ,
+    "date" => $date ,
+    "schedule" => $schedule ,
+    "modality" => $modality ,
+     "meeting" => $meeting ,
+     "totalPrice" => number_format(
+        $price , 2 , '.' , '.')
+);
 $preference->save();
 ?>
 
@@ -41,7 +74,36 @@ $preference->save();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
- 
+   <style>
+    /* wallet Container */
+    #wallet_container {
+      margin:auto;
+    }
+   
+    /* responsive */
+    @media(max-width:300px) {
+    button.svelte-ppjtf9.svelte-ppjtf9 {
+        min-width:auto !important;
+    }
+
+    span.svelte-ppjtf9.svelte-ppjtf9 {
+        margin-left:0 !important;
+    }
+   @media (max-width:230px) {
+    span.svelte-ppjtf9.svelte-ppjtf9 {
+       font-size:13px !important;
+    }
+
+    #wallet_container > div > div > div > div:nth-child(1) > button > p.text-container-2HElEM.svelte-ppjtf9 > span > div {
+        display:none;
+    }
+
+
+    h1 {
+        font-size:14px;
+    }
+   }
+   </style>
 </head>
 
 <body>

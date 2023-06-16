@@ -1,0 +1,38 @@
+       
+   
+
+
+/* schedule */
+    #schedule {
+      margin-top:50px;margin-bottom:30px
+    }
+   
+    .schedule__date{
+      margin-bottom: 10px
+    }
+
+
+    .schedule__scheduleContainer {
+      display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+    }
+    .schedule__btnSchedule {
+      width: 200px;
+      background: #F5F5F5;
+      margin-left: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      border:1px solid #E8E2E2;
+      font-family: "Roboto", sans-serif;
+    }
+
+    
+    .schedule__btnSchedule--selected {
+    
+      background: #9EB23B;
+      color:#fff;
+    }

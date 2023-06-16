@@ -2,7 +2,7 @@
 <?php
 $status = json_decode($_POST['error'] , true );
 $error = $status['status'];
-$razon = $status['status_detail'];
+$reason = $status['status_detail'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,12 +18,41 @@ $razon = $status['status_detail'];
     />
     <title>Document</title>
     <style>
+ /* Globals */
 
-        .text {
+ body {
+      display:grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
+  min-height: 100vh;
+ 
+    }
+footer {
+  background: #f1dede;overflow:hidden;
+}
+/* PayMent status */
+  .paymentStatus {
+    width:100%;background:#E90064;margin:auto;padding-bottom:50px;
+  }
+  .paymentStatus__title {
+    text-align:center;color:#fff;padding-top:20px;font-size:2rem;
+  }
+  .paymentStatus__title2 {
+    text-align:center;color:#fff;padding-top:20px;padding-bottom:20px;font-size:1.2rem;
+  }
+    
+        .paymentStatus__reason {
             text-align:center;color:#fff;font-size:20px;margin:0;padding-bottom:2px;min-height:20px;margin-bottom:10px;
             font-family: "Roboto", sans-serif;
         }
-        .container {
+        .paymentStatus__reason--black {
+          color:#000;
+        }
+        .paymentStatus__reason--font18 {
+          font-size:18px;
+        }
+
+        .paymentStatus__buttonContainer {
     
     display: inline-block;
     border-radius: 2px;
@@ -41,7 +70,9 @@ $razon = $status['status_detail'];
     margin:auto;
     margin-top:20px;
   }
-        .btn-process{
+
+  .paymentStatus__buttonBack{
+    
   font-size: 20px;
   background-color: #256EFF;
   border:none;
@@ -52,7 +83,49 @@ $razon = $status['status_detail'];
   color:#fff;
   cursor:pointer;
   font-family: "Roboto", sans-serif;
+  max-width:300px;width:100%;
+  text-decoration:none;
 }
+
+ 
+
+    .paymentStatus__reasonContainer {
+      background:rgba(255 , 255 , 255 , 0.94);width:50%;margin:auto;border-radius:10px;padding-top:20px;padding-bottom:20px;
+    }
+
+    .paymentStatus__listReasons {
+      color:#000;display:block;text-align:center;list-style:disc inside;
+    }
+/* Contact */
+    .contact__title {
+      margin-bottom: 20px;
+              letter-spacing: 3px;
+              text-transform: uppercase;
+              padding-top: 20px;
+    }
+    .contact__text {
+    line-height: 40px;
+                font-size: 16px;
+                font-weight: 800;
+                color: #343837;
+                margin-left: 10px;
+  }
+/* Responsive */
+   @media (max-width:1000px) {
+    .paymentStatus__reasonContainer  {
+      width:90%;
+      padding:10px;
+    }
+   }
+    @media (max-width:244px) {
+      h1 , h2 , h3 {
+        font-size:14px !important;
+      }
+
+      .paymentStatus__reason , .paymentStatus__buttonBack {
+        font-size:14px !important;
+      }
+     }
     </style>
     <link rel="stylesheet" href="../style.css">
 </head>
@@ -60,12 +133,12 @@ $razon = $status['status_detail'];
     <div class="banner">
         <img src="../banner.jpg" alt="" />
       </div>
-    <div style="width:100%;background:#E90064;margin:auto;padding-bottom:50px;">
-    <h1 style="text-align:center;color:#fff;padding-top:20px;font-size:2rem;">Algo salió mal… </h1>
-    <h2 style="text-align:center;color:#fff;padding-top:20px;padding-bottom:20px;font-size:1.2rem;"> <?php 
+    <div class="paymentStatus">
+    <h1 class="paymentStatus__title">Algo salió mal… </h1>
+    <h2  class="paymentStatus__title2"> <?php 
         switch( $error) {
           case 'rejected' :
-              switch($razon) {
+              switch($reason) {
                 case 'cc_rejected_other_reason' :
                   echo 'Tu tarjeta rechazó el pago';
                   break;
@@ -92,73 +165,81 @@ $razon = $status['status_detail'];
                       break;
               }
            break;
+           case null: 
+            echo 'Ya se reservo este turno';
+            break;
            default:
            echo 'No pudimos procesar tu pago';
              break;
         }
     ?></h2>
 
- <div style="background:rgba(255 , 255 , 255 , 0.94);width:50%;margin:auto;border-radius:10px;padding-top:20px;padding-bottom:20px;">
-  <p class="text" style="color:#000;">¿Qué puedo hacer?</p>
-  <ul style="color:#000;display:block;text-align:center;list-style:disc inside;">
+ <div class="paymentStatus__reasonContainer">
+  <p class="paymentStatus__reason paymentStatus__reason--black" >¿Qué puedo hacer?</p>
+  <ul class="paymentStatus__listReasons" >
 
 
    <?php 
     switch( $error) {
       case 'rejected' :
-        switch($razon) {
+        switch($reason) {
           case 'cc_rejected_other_reason' :
-            echo '   <li class="text" style="font-size:18px;color:#000;">Usar otra tarjeta.</li>   <li class="text" style="font-size:18px;color:#000;">Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li>' ;
+            echo '   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Usar otra tarjeta.</li>   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li>' ;
             break;
             case 'cc_rejected_call_for_authorize':
-              echo '   <li class="text" style="font-size:18px;color:#000;">Usar otra tarjeta.</li>   <li class="text" style="font-size:18px;color:#000;">Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li>';
+              echo '   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Usar otra tarjeta.</li>   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li>';
               break;
               case 'cc_rejected_insufficient_amount':
-               echo ' <li class="text" style="font-size:18px;color:#000;">Usar otra tarjeta.</li> ' ;
+               echo ' <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Usar otra tarjeta.</li> ' ;
                 break;
               case 'cc_rejected_bad_filled_security_code':
-                  echo '  <li class="text" style="font-size:18px;color:#000;">Revisar los datos al completar el formulario de pago.</li> ';
+                  echo '  <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Revisar los datos al completar el formulario de pago.</li> ';
                     break;
             case 'cc_rejected_bad_filled_date' :
-              echo '  <li class="text" style="font-size:18px;color:#000;">Revisar los datos al completar el formulario de pago.</li> ';
+              echo '  <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Revisar los datos al completar el formulario de pago.</li> ';
               break;
               case 'cc_rejected_bad_filled_other' :
-                echo '  <li class="text" style="font-size:18px;color:#000;">Revisar los datos al completar el formulario de pago.</li> ';
+                echo '  <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Revisar los datos al completar el formulario de pago.</li> ';
                 break; 
                  case 'cc_rejected_bad_filled_card_number' :
-                echo '  <li class="text" style="font-size:18px;color:#000;">Revisar los datos al completar el formulario de pago.</li> ';
+                echo '  <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Revisar los datos al completar el formulario de pago.</li> ';
                 break;
                 default:
-                echo '   <li class="text" style="font-size:18px;color:#000;">Usar otra tarjeta.</li>   <li class="text" style="font-size:18px;color:#000;">Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li> <li class="text" style="font-size:18px;color:#000;">Revisar los datos al completar el formulario de pago.</li><li class="text" style="font-size:18px;color:#000;">Intentarlo mas tarde</li>' ;
+                echo '   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Usar otra tarjeta.</li>   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li> <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Revisar los datos al completar el formulario de pago.</li><li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Intentarlo mas tarde</li>' ;
                  break;
         }
            break;
+        case null: 
+           echo '<li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Seleccionar otro turno</li>';
+          break;
            default:
-           echo '   <li class="text" style="font-size:18px;color:#000;">Usar otra tarjeta.</li>   <li class="text" style="font-size:18px;color:#000;">Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li> <li class="text" style="font-size:18px;color:#000;">Revisar los datos al completar el formulario de pago.</li><li class="text" style="font-size:18px;color:#000;">Intentalo mas tarde</li>' ;
+           echo '   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Usar otra tarjeta.</li>   <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Hablar con su banco , seguramente  usted tiene alguna limitación o necesita autorizar este pago.</li> <li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Revisar los datos al completar el formulario de pago.</li><li class="paymentStatus__reason paymentStatus__reason--font18 paymentStatus__reason--black" >Intentalo mas tarde</li>' ;
             break;
     }
    ?>
 
   
 
+   <?php 
+   if (!isset($status['status'])) {
+      echo '<a class="paymentStatus__buttonContainer paymentStatus__buttonBack"  href="../turno.html">Click Aqui para tu turno</a>';
+   } else {
+    echo '<button   type="submit" id="form-checkout__submit" class="paymentStatus__buttonContainer paymentStatus__buttonBack" > Regresar al formulario de pago </button>';
+   }
    
-   <button   type="submit" id="form-checkout__submit" class="container btn-process" style="max-width:300px;width:100%;"> Regresar al formulario de pago </button>
+   ?>
   </ul>
  </div>
 
 </div>
     </div>
 
-    <footer style="background: #f1dede;">
+    <footer >
         <section class="contact">
           <h2
-            style="
-              margin-bottom: 20px;
-              letter-spacing: 3px;
-              text-transform: uppercase;
-              padding-top: 20px;
-            "
-            ;
+          class="contact__title"
+           
+            
           >
             Contacto
           </h2>
@@ -179,13 +260,7 @@ $razon = $status['status_detail'];
               </g>
             </svg>
             <p
-              style="
-                line-height: 40px;
-                font-size: 16px;
-                font-weight: 800;
-                color: #343837;
-                margin-left: 10px;
-              "
+              class="contact__text"
             >
               Instagram
             </p>
@@ -207,12 +282,7 @@ $razon = $status['status_detail'];
               </g>
             </svg>
             <p
-              style="
-                line-height: 40px;
-                font-size: 18px;
-                margin-left: 10px;
-                color: #343837;
-              "
+              class="contact__text"
             >
               Email
             </p>
@@ -239,21 +309,25 @@ $razon = $status['status_detail'];
       form.submit();
     }
 
-    const objeto = {
-            nombre: "<?php  echo $_POST['nombre'] ?>",
-            apellido:" <?php  echo $_POST['apellido'] ?>",
-            email: "<?php  echo $_POST['mail'] ?>",
-            telefono: <?php  echo $_POST['telefono'] ?>,
-            horario: JSON.stringify(<?php  echo $_POST['horario'] ?>),
-            fecha: JSON.stringify(<?php  echo $_POST['fecha'] ?>),
-            modalidad: "<?php  echo $_POST['modalidad'] ?>",
-            encuentro: "<?php  echo $_POST['encuentro'] ?>",
-            precio : "<?php echo  $_POST['precio'] ?>"
+    const formData = {
+            name: "<?php  echo $_POST['name'] ?>",
+            surname:" <?php  echo $_POST['surname'] ?>",
+            mail: "<?php  echo $_POST['mail'] ?>",
+            phone: "<?php  echo $_POST['phone'] ?>",
+            schedule: JSON.stringify(<?php  echo $_POST['schedule'] ?>),
+            date: JSON.stringify(<?php  echo $_POST['date'] ?>),
+            modality: "<?php  echo $_POST['modality'] ?>",
+            meeting: "<?php  echo $_POST['meeting'] ?>",
+            price : "<?php echo  $_POST['price'] ?>"
           }
-          console.log(typeof objeto.horario);
-        document.querySelector("#form-checkout__submit").addEventListener('click' , (e) => {
-          post("./checkout2.php" , objeto);
+ 
+
+          if (  document.querySelector("#form-checkout__submit")) {
+            document.querySelector("#form-checkout__submit").addEventListener('click' , (e) => {
+          post("./checkout2.php" , formData);
         })
+          }
+ 
       </script>
 </body>
 </html>

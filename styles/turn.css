@@ -1,0 +1,55 @@
+   
+ /* turn */
+ .turn {
+  height: 90%; padding-top: 20px;
+ }
+.turn__selectContainer {
+  padding-bottom:30px;position: relative;
+}
+
+
+/* form */
+.form__labelError--turn {
+  bottom:17px;
+}
+
+
+/* Modifiers */
+.float-l {
+  float:left;
+}
+
+.float-r {
+  float:right;
+}
+
+
+  /* skeleton */
+
+
+  .skeleton__label {
+    height:27px;max-width:200px;text-align:left;display:block;
+    width:80%;
+    
+  }
+
+
+   .skeleton__select {
+    margin-top:10px;width:80%;display:block;height:38px;
+    
+  
+   
+   }
+
+   .skeleton__label--ml10 , .skeleton__select--ml10 {
+    margin-left:10px;
+  }
+  /* Responsive */
+  @media(max-width:201px) {
+    .skeleton__label--ml10 , .skeleton__select--ml10 {
+        margin:0;
+      }
+
+  }
+
+

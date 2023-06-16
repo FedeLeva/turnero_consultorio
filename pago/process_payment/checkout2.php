@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,30 +73,33 @@
 
 <?php
 
+
+
+
 // Paciente
-$nombre = $_POST['nombre'];
-$apellido = $_POST['apellido'];
+$name = $_POST['name'];
+$surname = $_POST['surname'];
 $mail = $_POST['mail'];
-$telefono = $_POST['telefono'];
+$phone = $_POST['phone'];
 //Fecha
-$fecha = json_decode($_POST['fecha'] , true );
-$dia = $fecha['dia'];
-$mes = $fecha['mes'];
-$año = $fecha['año'];
-$nombreMes = $fecha['nombreMes'];
+$date = json_decode($_POST['date'] , true );
+$day = $date['day'];
+$month = $date['month'];
+$year = $date['year'];
+$nameMonth = $date['nameMonth'];
 // Horario
-$horario = json_decode($_POST['horario'] , true );
-$desde = $horario['desde'];
-$hasta = $horario['hasta'];
-$indice_dia = $horario['indice'];
+$schedule = json_decode($_POST['schedule'] , true );
+$from = $schedule['from'];
+$to = $schedule['to'];
+$indexDay = $schedule['indexDay'];
 // Reserva
-$encuentro = $_POST['encuentro'];
-$modalidad = $_POST['modalidad'];
+$meeting = $_POST['meeting'];
+$modality = $_POST['modality'];
 // Datos para crear el checkout
-$precio = $_POST['precio'];
-$descripcion = '[Especialidad] [Nombre] ' . $encuentro;
-$servicio = '[Especialidad]  ' . $encuentro . "  " . $modalidad . " (Nombre)";
-$horaCliente =  $nombreMes . " " . $dia . ", " . $año . " - " . $desde;
+$price = $_POST['price'];
+$description = '[Especialidad] [Nombre] ' . $meeting;
+$service = '[Especialidad]  ' . $meeting . "  " . $modality . " (Nombre)";
+$customerTime =  $nameMonth . " " . $day . ", " . $year . " - " . $from;
 
 
 
@@ -125,10 +126,48 @@ $horaCliente =  $nombreMes . " " . $dia . ", " . $año . " - " . $desde;
        "number" => $_POST['identificationNumber']
    );
    $payment->payer = $payer;
+   sleep(2);
+   
+   $findDate = false;
+   $mysqli = new mysqli("localhost", "Usuario", "arrozz", "officebd");
+   mysqli_set_charset($mysqli, "utf8");
+   $id_shift;
+   $id_schedule;
+   $query = "SELECT * FROM schedule 
+   WHERE fromThe = '" .  $from . "'";
+ $result = $mysqli->query($query);
+ $row = $result->fetch_assoc();
+ $id_schedule = $row['ID'];
+ $query = "SELECT * FROM turn 
+ WHERE dayIndex =  " . $indexDay . " AND id_schedule = " .  $id_schedule;
+ $result = $mysqli->query($query);
+ $row = $result->fetch_assoc();
+ $id_shift = $row['ID'];
+ $id_date;
+ $rowDate;
+ $query = "SELECT * FROM  date WHERE  day =".$day." AND month = ". $month." AND year = " . $year ."";
+ $result = $mysqli->query($query);
+ if ($result->num_rows > 0) {
+  $rowDate = $result->fetch_assoc();
+  $id_date = $rowDate['ID'];
+  $findDate = true;
+ };
 
+
+
+ sleep(2);
+ if (!$findDate ) {
+  $payment->save();
+ } else {
+  $query = "SELECT * FROM booking 
+  WHERE id_date =  " . $id_date . " AND id_turn = " . $id_shift;
+   $result = $mysqli->query($query);
+   if (!($result->num_rows > 0)) {
+    $payment->save();
+   };
+ }
 
    
-   $payment->save();
  
    $response = array(
        'status' => $payment->status,
@@ -140,94 +179,66 @@ $horaCliente =  $nombreMes . " " . $dia . ", " . $año . " - " . $desde;
  
    if ($response['status'] == "approved" ||  $response['status'] == "in_process" ) {
   
-    $mysqli = new mysqli("localhost", "Usuario", "arrozz", "consultoriobd");
-    mysqli_set_charset($mysqli, "utf8");
-    // id fecha (completar)
-    $id_fecha;
-    $query = "SELECT * FROM fecha WHERE  date =".$dia." AND mes = ". $mes." AND año = " . $año ."";
-    $resultado = $mysqli->query($query);
+
+ 
   
-    if (!$resultado->num_rows > 0) {
-
-
-      $query = "SELECT * from turno 
-      join horario on horario.id =  turno.id_horario 
-      WHERE indice_dia  = " . $indice_dia;
-    
-    $resultado = $mysqli->query($query);
-    $cant_turnos = $resultado->num_rows - 1;
-         $query = "INSERT INTO fecha (date , mes , año , turnos_disponibles) values (".$dia.",".$mes.",". $año . " ,".   $cant_turnos   .  ")";
-      if ($mysqli->query($query)) {
-      $id_fecha = $mysqli->insert_id;
+    if (!$findDate) {
+      $query = "SELECT * from turn 
+      join schedule on schedule.ID =  turn.id_schedule 
+      WHERE dayIndex  = " . $indexDay;
+    $result = $mysqli->query($query);
+     $numberTurns = $result->num_rows - 1;
+         $query = "INSERT INTO  date (day , month , year , shifts_available) values (".$day.",".$month.",". $year . " ,".   $numberTurns   .  ")";
+       if ($mysqli->query($query)) {
+      $id_date = $mysqli->insert_id;
     } else {
       echo "Falló la creación de la tabla: (" . $mysqli->errno . ") " . $mysqli->error;
     };
     } else {
-         $fila = $resultado->fetch_assoc();
-         $id_fecha = $fila['ID'];
-         if (! $fila['turnos_disponibles'] == 0) {
-                $uno_menos = $fila['turnos_disponibles'] - 1;
-                 $query = "UPDATE fecha  SET   turnos_disponibles = " . $uno_menos . " WHERE ID  =  " . $id_fecha; 
-                
+     
+         if (!$rowDate['shifts_available'] == 0) {
+                $uno_menos = $rowDate['shifts_available'] - 1;
+                 $query = "UPDATE  date  SET   shifts_available = " . $uno_menos . " WHERE ID  =  " . $id_date; 
                  $mysqli->query($query);
-
          } 
-
     }
  
     // id_paciente
-    $id_paciente;
-    $query = "SELECT * FROM paciente 
-    WHERE nombre = '". $nombre . "' AND apellido = '" . $apellido . "'";
-   
-    $resultado = $mysqli->query($query);
-    if (!$resultado->num_rows > 0) {
-        $query = "INSERT INTO paciente (nombre , apellido , mail , telefono) values ('".$nombre. "','" .$apellido   ."' ,'". $mail ."',".  $telefono  .") "; 
+    $id_patient;
+    $query = "SELECT * FROM patient 
+    WHERE name = '". trim($name) . "' AND surname = '" . trim($surname) . "'";
+    $result = $mysqli->query($query);
+    if (!($result->num_rows > 0)) {
+        $query = "INSERT INTO patient (name , surname , mail , phone) values (TRIM('".$name. "'),TRIM('" .$surname   ."') ,'". $mail ."','".  $phone  ."') "; 
     if ($mysqli->query($query)) {
-      $id_paciente = $mysqli->insert_id;
+      $id_patient = $mysqli->insert_id;
     } else {
       echo "Falló la creación de la tabla: (" . $mysqli->errno . ") " . $mysqli->error;
     };
  } else {
-     $fila = $resultado->fetch_assoc();
-     $id_paciente = $fila['ID'];
+   $row = $result->fetch_assoc();
+   $id_patient = $row['ID'];
  
   
-   if (!($fila['mail'] == $mail)) {
-     $query = "UPDATE paciente 
+   if (!($row['mail'] == $mail)) {
+     $query = "UPDATE patient 
      SET mail = '". $mail  . 
-     "' WHERE ID =". $id_paciente ;
+     "' WHERE ID =". $id_patient ;
 
    
      $mysqli->query($query);
    }
 
 
-  if (!($fila['telefono'] == $telefono) ) {
-   $query = "UPDATE paciente 
-   SET telefono = '". $telefono  . 
-   "' WHERE ID =". $id_paciente ;
+  if (!($row['phone'] == $phone) ) {
+   $query = "UPDATE patient 
+   SET phone = '". $phone  . 
+   "' WHERE ID =". $id_patient ;
    $mysqli->query($query);
  
   }
  }
- 
- 
- 
- $id_turno;
- $id_horario;
- $query = "SELECT * FROM horario 
- WHERE desde = '" .  $desde . "'";
- 
- $resultado = $mysqli->query($query);
- $fila = $resultado->fetch_assoc();
- $id_horario = $fila['ID'];
- $query = "SELECT * FROM turno 
- WHERE indice_dia =  " . $indice_dia . " AND id_horario = " . $id_horario;
- $resultado = $mysqli->query($query);
- $fila = $resultado->fetch_assoc();
- $id_turno = $fila['ID'];
- $query = "INSERT INTO reserva (id_fecha  , id_paciente , modalidad , encuentro , MP_identificador , precio , id_turno) values (". $id_fecha ." ," .   $id_paciente .   ",'". $modalidad . "','".  $encuentro    ."' , " . $payment->id .  " , '".  $precio  . "', ".$id_turno . ")";
+ $query = "INSERT INTO booking (id_date  , id_patient , modality , meeting , MP_identifier , price , id_turn) values (". $id_date ." ," .   $id_patient .   ",'". $modality . "','".  $meeting    ."' , " . $payment->id .  " , '".  $price  . "', ".$id_shift . ")";
  $mysqli->query($query);
   echo '<script type="text/JavaScript"> 
   sessionStorage.setItem("MP_status",'  . "'" .   json_encode($response)  . "'" . ');
@@ -239,25 +250,20 @@ $horaCliente =  $nombreMes . " " . $dia . ", " . $año . " - " . $desde;
     echo '
     <form method="POST"  action="../PagoError.php">
       <input type="hidden" name="error" value='."'" .  json_encode($response)  . "'"  .' >
-        <input type="hidden" name="nombre" value="' . $nombre. '">
-        <input type="hidden" name="apellido" value="'.  $apellido  .'">
+        <input type="hidden" name="name" value="' . $name. '">
+        <input type="hidden" name="surname" value="'.  $surname  .'">
         <input type="hidden" name="mail" value="'.$mail.'">
-        <input type="hidden" name="telefono" value="'.$telefono.'">
-        <input type="hidden" name="fecha" value="'   . str_replace('"' , "'" ,  $_POST['fecha']).'">
-        <input type="hidden" name="horario" value="'. str_replace('"' , "'" ,  $_POST['horario']) .'">
-        <input type="hidden" name="encuentro" value="'. $encuentro.'">
-        <input type="hidden" name="modalidad" value="'. $modalidad.'">
-         <input type="hidden" name="precio" value=' .number_format(
-          intval('' . explode("." , $precio)[0] . explode("." , $precio)[1]) , 0 , '' , '').'>
+        <input type="hidden" name="phone" value="'.$phone.'">
+        <input type="hidden" name="date" value="'   . str_replace('"' , "'" ,  $_POST['date']).'">
+        <input type="hidden" name="schedule" value="'. str_replace('"' , "'" ,  $_POST['schedule']) .'">
+        <input type="hidden" name="meeting" value="'. $meeting.'">
+        <input type="hidden" name="modality" value="'. $modality.'">
+         <input type="hidden" name="price" value=' .number_format(
+          intval('' . explode("." , $price)[0] . explode("." , $price)[1]) , 0 , '' , '').'>
     </form>
     <script type="text/JavaScript"> 
 
     document.querySelector("form").submit();
   </script>';
    }
-
-
-
-
-
 ?>

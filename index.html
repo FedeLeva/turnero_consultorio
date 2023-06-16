@@ -20,6 +20,14 @@
 
     <title>Portafolio</title>
     <style>
+      /* Global tags */
+      main {
+        overflow:hidden;
+      }
+
+      footer {
+        background: #f1dede
+      }
       * {
         margin: 0px;
         padding: 0px;
@@ -46,7 +54,7 @@
         font-size: 20px;
         color: #353536;
       }
-
+     /* Wsap */
       .logoWsap {
         background: red;
         height: 70px;
@@ -66,26 +74,38 @@
         cursor: pointer;
         background-color: #2bb741;
       }
+      /* Banner */
       .banner {
         text-align: center;
         width: 85vw;
         margin: auto;
       }
+
+      /* AboutMe */
       .aboutMe {
         display: flex;
         width: 70vw;
         margin: auto;
+      }
+
+      .aboutMe__title {
+        color: #8b1e3f; font-size: 17px
+      }
+
+      .aboutMe__title--size {
+        font-size: 1.8em
       }
       .aboutMe__profile {
         width: 70%;
         text-align: left;
       }
 
-      .aboutMe__containerDescription {
+     
+      .aboutMe__descriptionContainer {
         width: 80%;
         margin: 40px auto;
       }
-      .aboutMe__ContainerImage {
+      .aboutMe__imageContainer {
         display: flex;
         background-color: #8fad88;
         background-image: url("flower-removebg-preview.png");
@@ -100,6 +120,8 @@
         left: -6vw;
         margin: auto;
       }
+
+
       .aboutMe__btn {
         padding: 10px;
         border-radius: 3px;
@@ -112,6 +134,19 @@
         line-height: 15px;
         box-sizing: content-box;
       }
+      /* Modifiers */
+     .mb-2 {
+      margin-bottom: 1.6em
+     }
+
+     .mb-1 {
+      margin-bottom: 2px;
+     }
+    
+    
+
+    
+ /* Contact */
       .contact {
         display: flex;
         width: 80vw;
@@ -119,14 +154,21 @@
         flex-direction: column;
         padding-bottom: 20px;
       }
+      .contact__title {
+      margin-bottom: 20px;
+              letter-spacing: 3px;
+              text-transform: uppercase;
+              padding-top: 20px;
+    }
 
-      .contact__containerInstagram {
+
+      .contact__instagramContainer {
         display: flex;
         margin-bottom: 20px;
         margin-left: 10px;
       }
 
-      .contact__containerEmail {
+      .contact__emailContainer {
         display: flex;
         margin-bottom: 16px;
         margin-left: 10px;
@@ -134,13 +176,27 @@
         color: #343837;
       }
 
+      .contact__text {
+      line-height: 40px;
+                font-size: 18px;
+                margin-left: 10px;
+                color: #343837;
+                font-weight:800;
+    }
+    /* Presentation */
       .presentation {
         display: flex;
         flex-direction: column;
         margin-top: 50px;
       }
 
-      .presentation__containerImage {
+      .presentation__arrowDown {
+        margin: 10px auto  
+      }
+       
+
+ 
+      .presentation__imageContainer {
         text-align: center;
         border: 5px solid #59656f;
         min-width: 300px;
@@ -152,12 +208,7 @@
         min-height: 250px;
 
       }
-      .animation_grow:hover {
-        animation-name:grow;
-        animation-duration:.3s;
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-      }
+ 
       .presentation__image {
         width: 100px;
         height: 100px;
@@ -182,38 +233,53 @@
         text-decoration: none;
         border: 3px solid #1b1d1c;
         background: #8b1e3f;
+        font-family: "Roboto", sans-serif;
       }
+
+      /* Copyright */
+      .copyright {
+      height: 50px; text-align: center; display:flex
+    }
+
+    .copyright__text {
+      margin: auto; font-size: 16px; color: #343837
+    }
+
+
+    /* Responsive */
       @media (max-width: 768px) {
+
         .aboutMe {
           flex-direction: column;
         }
-        .presentation__containerImage {
-          margin-top: 50px;
-        }
         .aboutMe__profile,
-        .aboutMe__containerDescription {
+        .aboutMe__descriptionContainer {
           width: 100%;
         }
-
         .aboutMe__image {
           position: static;
           padding: 20px;
         }
 
+
+
+        .presentation__imageContainer {
+          margin-top: 50px;
+          min-width: 200px;
+        }
+      
+
         .contact {
           text-align: center;
         }
-
-        .contact__containerInstagram,
-        .contact__containerEmail {
+        .contact__instagramContainer,
+        .contact__emailContainer {
           margin: auto;
           text-align: center;
           min-width: 200px;
         }
 
-        .presentation__containerImage {
-          min-width: 200px;
-        }
+      
       }
       @media (max-width: 320px) {
         .aboutMe__btn {
@@ -229,22 +295,23 @@
         .contact {
           width: 100%;
         }
+        .contact__instagramContainer,
+        .contact__emailContainer {
+          min-width: 100%;
+        }
 
-        .presentation__containerImage {
+
+        .presentation__imageContainer {
           padding-bottom: 0;
           min-width: 100%;
         }
-
-        .contact__containerInstagram,
-        .contact__containerEmail {
-          min-width: 100%;
-        }
-
         .presentation {
           margin-top: 0;
         }
       }
 
+
+      /* Animations */
     .animate__delay-05s {
       animation-delay: 0.1s;
     }
@@ -259,26 +326,39 @@
         transform:scale(1.1);
       }
     }
+
+    .animation_grow:hover {
+        animation-name:grow;
+        animation-duration:.3s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        cursor:pointer;
+      }
+
+
+
+
+    
     </style>
   </head>
   <body>
     <div class="logoWsap"></div>
 
-    <main style="overflow:hidden;">
+    <main >
       <div class="banner">
         <img src="banner.jpg" alt="" />
       </div>
       <section class="aboutMe">
         <div class="aboutMe__profile">
-          <h4 style="color: #8b1e3f; font-size: 17px">SOBRE MI</h4>
-          <h2 style="font-size: 1.8em">[INSERTE NOMBRE]</h2>
-          <article class="aboutMe__containerDescription">
-            <p style="margin-bottom: 1.6em">Lorem ipsum dolor sit amet.</p>
-            <p style="margin-bottom: 1.6em" id="prueba">
+          <h4 class="aboutMe__title"  >SOBRE MI</h4>
+          <h2  class="aboutMe__title--size">[INSERTE NOMBRE]</h2>
+          <article class="aboutMe__descriptionContainer">
+            <p class="mb-2">Lorem ipsum dolor sit amet.</p>
+            <p class="mb-2" >
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat,
               assumenda.
             </p>
-            <p style="margin-bottom: 1.6em">
+            <p class="mb-2">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
               minima enim dolorum tempora facere explicabo beatae quisquam sunt
               pariatur quaerat voluptatem, eos doloribus ex est ab quis, nostrum
@@ -286,19 +366,19 @@
               pariatur reprehenderit voluptate cupiditate porro, magnam animi,
               asperiores sint voluptas nihil sed molestias.
             </p>
-            <p style="margin-bottom: 1.6em">
+            <p class="mb-2">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, cum
               sint debitis totam perferendis necessitatibus laudantium obcaecati
               veniam consequuntur. Consectetur, labore veniam ut aliquid eveniet
               nostrum culpa atque reiciendis voluptas!
             </p>
-            <p style="margin-bottom: 1.6em">Lorem ipsum dolor sit amet.</p>
+            <p class="mb-2">Lorem ipsum dolor sit amet.</p>
             <a class="aboutMe__btn" target="_blank" href="mis-formaciones.html"
               >SOBRE MIS FORMACIONES</a
             >
           </article>
         </div>
-        <div class="aboutMe__ContainerImage"   
+        <div class="aboutMe__imageContainer"   
         >
           <img
             class="aboutMe__image josh-js"
@@ -313,21 +393,21 @@
         </div>
       </section>
       <section class="presentation">
-        <div class="presentation__containerImage  josh-js" data-josh-anim-name="fadeInLeft">
+        <div class="presentation__imageContainer  josh-js" data-josh-anim-name="fadeInLeft">
           <img src="foto.png" alt="" class="presentation__image" />
-          <p style="margin-bottom: 2px">Lorem, ipsum dolor.</p>
-          <p style="margin-bottom: 2px">Lorem ipsum dolor</p>
-          <p style="margin-bottom: 2px">Lorem ipsum</p>
-          <p style="margin-bottom: 2px">Lorem.</p>
+          <p  class="mb-1"  >Lorem, ipsum dolor.</p>
+          <p  class="mb-1"  >Lorem ipsum dolor</p>
+          <p  class="mb-1"  >Lorem ipsum</p>
+          <p  class="mb-1"  >Lorem.</p>
         </div>
 
         <svg 
         data-josh-anim-name="fadeInLeft"
        
-        class="josh-js  animate__delay-05s"
+        class="josh-js  animate__delay-05s presentation__arrowDown"
           width="50px"
           height="50px"
-          style="margin: 10px auto  "
+     
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -346,20 +426,15 @@
         </a>
       </section>
 
-      <footer style="background: #f1dede">
+      <footer >
         <section class="contact">
           <h2
-            style="
-              margin-bottom: 20px;
-              letter-spacing: 3px;
-              text-transform: uppercase;
-              padding-top: 20px;
-            "
-            ;
+            
+            class="contact__title"
           >
             Contacto
           </h2>
-          <div class="contact__containerInstagram">
+          <div class="contact__instagramContainer">
             <svg
               fill="#000000"
               width="40px"
@@ -369,25 +444,20 @@
             >
               <title />
 
-              <g id="Instagram">
+              <g >
                 <path
                   d="M26.49,30H5.5A3.35,3.35,0,0,1,3,29a3.35,3.35,0,0,1-1-2.48V5.5A3.35,3.35,0,0,1,3,3,3.35,3.35,0,0,1,5.5,2h21A3.35,3.35,0,0,1,29,3,3.35,3.35,0,0,1,30,5.5v21A3.52,3.52,0,0,1,26.49,30ZM24.74,10.56a3.45,3.45,0,0,0-3.48-3.49H10.71a3.47,3.47,0,0,0-3.48,3.49V21.1a3.45,3.45,0,0,0,3.48,3.49H21.26a3.43,3.43,0,0,0,3.48-3.49Zm-8.73.9a4.09,4.09,0,0,0-1.38.24,5.36,5.36,0,0,0-1.24.63H9v-.87a2.56,2.56,0,0,1,2.61-2.62h8.75a2.63,2.63,0,0,1,1.89.75A2.48,2.48,0,0,1,23,11.46v.87H18.6a6.14,6.14,0,0,0-1.22-.63A3.87,3.87,0,0,0,16,11.46Zm4.35,11.41H11.61a2.48,2.48,0,0,1-1.86-.78A2.57,2.57,0,0,1,9,20.24v-7h3.49a5.49,5.49,0,0,0-.63,1.23,3.82,3.82,0,0,0-.25,1.4A4.19,4.19,0,0,0,12,17.55a5,5,0,0,0,.93,1.39,4.28,4.28,0,0,0,1.4.95,4.24,4.24,0,0,0,1.72.35,4.29,4.29,0,0,0,3.08-1.3A5,5,0,0,0,20,17.55a4.19,4.19,0,0,0,.35-1.69,3.82,3.82,0,0,0-.25-1.4,6.37,6.37,0,0,0-.6-1.23H23v7a2.52,2.52,0,0,1-.78,1.85A2.57,2.57,0,0,1,20.36,22.87ZM16,13.23a2.55,2.55,0,0,1,1.85.75,2.63,2.63,0,0,1,0,3.74,2.55,2.55,0,0,1-1.85.75,2.63,2.63,0,0,1-1.9-.75,2.66,2.66,0,0,1,0-3.74A2.63,2.63,0,0,1,16,13.23Zm3.5-1.77h1.75V9.71H19.51Z"
                 />
               </g>
             </svg>
             <p
-              style="
-                line-height: 40px;
-                font-size: 16px;
-                font-weight: 800;
-                color: #343837;
-                margin-left: 10px;
-              "
+              
+              class="contact__text"
             >
               Instagram
             </p>
           </div>
-          <div class="contact__containerEmail">
+          <div class="contact__emailContainer">
             <svg
               fill="#000000"
               width="40px"
@@ -397,19 +467,15 @@
             >
               <title />
 
-              <g id="Email">
+              <g >
                 <path
                   d="M26.49,30H5.5A3.35,3.35,0,0,1,3,29a3.35,3.35,0,0,1-1-2.48V5.5A3.35,3.35,0,0,1,3,3,3.35,3.35,0,0,1,5.5,2h21A3.35,3.35,0,0,1,29,3,3.35,3.35,0,0,1,30,5.5v21A3.52,3.52,0,0,1,26.49,30Zm-2.62-6.9a1,1,0,0,0,.57-.19,1.23,1.23,0,0,0,.7-1.1V9.93A.93.93,0,0,0,25,9.4a1.32,1.32,0,0,0-1.13-.74H7.93a.69.69,0,0,0-.3.1A1.26,1.26,0,0,0,6.77,9.9V21.81a1,1,0,0,0,.17.55,1.28,1.28,0,0,0,1.12.74Zm-1.36-2.66H9.41V13L16,18.21,22.51,13ZM16,14.81c-2.89-2.28-4.37-3.46-4.44-3.52H20.4Z"
                 />
               </g>
             </svg>
             <p
-              style="
-                line-height: 40px;
-                font-size: 18px;
-                margin-left: 10px;
-                color: #343837;
-              "
+             class="contact__text"
+              
             >
               Email
             </p>
@@ -417,21 +483,20 @@
         </section>
       </footer>
 
-      <section style="height: 50px; text-align: center; display:flex">
-        <p style="margin: auto; font-size: 16px; color: #343837">
+      <section  class="copyright"  >
+        <p  class="copyright__text" >
           Copyright © 2023 [INSERTE NOMBRE]
         </p>
       </section>
 
     </main>
-    <script>
-      const wsap = document.getElementsByClassName("logoWsap")[0];
+   <script src="https://cdn.jsdelivr.net/npm/joshjs@1.0.0/dist/josh.min.js"></script>
+   <script>
+
+const wsap = document.getElementsByClassName("logoWsap")[0];
       wsap.addEventListener("click", (e) => {
         window.open("http://www.google.com");
       });
-    </script>
-   <script src="https://cdn.jsdelivr.net/npm/joshjs@1.0.0/dist/josh.min.js"></script>
-   <script>
   const josh = new Josh({
     initClass: "josh-js",
     animClass: "animate__animated",
@@ -439,15 +504,15 @@
     animateInMobile: true,
     onDOMChange: false,
   });
+
+  const image = document.getElementsByClassName("presentation__imageContainer")[0];
+  image.addEventListener("animationend" , () => {
+     image.classList.remove("josh-js" , "animate__animated")
+    image.removeAttribute("style");
+    image.removeAttribute("data-josh-anim-name");
+    image.classList.add("animation_grow")
+  })
    </script>
-   <script>
-    const image = document.getElementsByClassName("presentation__containerImage")[0];
-    image.addEventListener("animationend" , () => {
-       image.classList.remove("josh-js" , "animate__animated")
-      image.removeAttribute("style");
-      image.removeAttribute("data-josh-anim-name");
-      image.classList.add("animation_grow")
-    })
-   </script>
+ 
   </body>
 </html>

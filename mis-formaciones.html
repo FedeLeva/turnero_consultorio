@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <style>
-
+      /* Global tags */
 * {
         margin: 0px;
         padding: 0px;
@@ -36,6 +36,7 @@
         color:#353536;
         
       }
+      /* Wsap */
       .logoWsap {
         background:red;
         height: 70px;
@@ -56,26 +57,31 @@
         cursor:pointer;
         background-color:#2BB741
       }
+   /* Main Content */
+      .mainContent {
+        text-align: center; width: 85vw; margin: auto
+      }
+      .mainContent__title {
+        font-size:2em;color: #8b1e3f;
+      }
 
-    </style>
-</head>
-<body>
-  <div class="logoWsap"></div>
-    <div style="text-align: center; width: 85vw; margin: auto">
-        <img src="banner.jpg" alt="" />
-        <h1 style="font-size:2em;color: #8b1e3f;">Mis formaciones</h1>
-        <p style="margin-bottom:15px;margin-top:15px;">Lorem ipsum dolor sit amet.</p>
-        <p style="margin-bottom:15px">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt fugiat quis beatae vero consequuntur cupiditate sapiente reiciendis voluptatem totam fuga?</p>
-        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, a atque repellat necessitatibus exercitationem dolores totam cupiditate voluptatem id non eum velit </p>
-        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
-        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
-        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
-        <p style="margin-bottom:15px">Lorem ipsum dolor sit amet.</p>
-        </div>
-        <section style="display: flex; flex-direction: column; margin-top: 50px">
-          <div
-            style="
-              text-align: center;
+      /* Modifiers */
+      .mY-1 {
+        margin-bottom:15px;margin-top:15px;
+      }
+      .mb-1 {
+        margin-bottom: 2px
+      }
+      .mb-2 {
+        margin-bottom:15px
+      }
+/* Presentation */
+      .presentation {
+        display: flex; flex-direction: column; margin-top: 50px
+      }
+
+      .presentation__imageContainer {
+        text-align: center;
               border: 5px solid #59656f;
               width: 300px;
               border-radius: 50px;
@@ -84,13 +90,10 @@
               margin: auto;
               padding-bottom: 20px;
               min-height: 250px;
-            "
-          >
-            <img
-              src="foto.png"
-              alt=""
-              style="
-                width: 100px;
+      }
+
+      .presentation__image {
+        width: 100px;
                 height: 100px;
                 margin-bottom: 20px;
                 margin: auto;
@@ -100,16 +103,50 @@
                 border-radius: 50%;
                 margin-bottom: 10px;
                 padding: 10px;
-              "
+      }
+   /* Copyright */
+      .copyright {
+        height: 50px; text-align: center; display: flex;background: #f1dede;margin-top:20px;
+      }
+
+
+      .copyright__text {
+        margin: auto; font-size: 16px; color: #343837
+      }
+    </style>
+</head>
+<body>
+  <div class="logoWsap"></div>
+    <div  class="mainContent" >
+        <img src="banner.jpg" alt="" />
+        <h1 class="mainContent__title">Mis formaciones</h1>
+        <p class="mY-1">Lorem ipsum dolor sit amet.</p>
+        <p class="mb-2">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Incidunt fugiat quis beatae vero consequuntur cupiditate sapiente reiciendis voluptatem totam fuga?</p>
+        <p class="mb-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, a atque repellat necessitatibus exercitationem dolores totam cupiditate voluptatem id non eum velit </p>
+        <p class="mb-2">Lorem ipsum dolor sit amet.</p>
+        <p class="mb-2">Lorem ipsum dolor sit amet.</p>
+        <p class="mb-2">Lorem ipsum dolor sit amet.</p>
+        <p class="mb-2">Lorem ipsum dolor sit amet.</p>
+        </div>
+        <section class="presentation" >
+          <div
+          class="presentation__imageContainer"
+          
+          >
+            <img
+              src="foto.png"
+              alt=""
+              class="presentation__image"
+             
             />
-            <p style="margin-bottom: 2px">Lorem, ipsum dolor.</p>
-            <p style="margin-bottom: 2px">Lorem ipsum dolor</p>
-            <p style="margin-bottom: 2px">Lorem ipsum</p>
-            <p style="margin-bottom: 2px">Lorem.</p>
+            <p class="mb-1">Lorem, ipsum dolor.</p>
+            <p class="mb-1">Lorem ipsum dolor</p>
+            <p class="mb-1">Lorem ipsum</p>
+            <p class="mb-1">Lorem.</p>
           </div>
         </section>
-        <section style="height: 50px; text-align: center; display: flex;background: #f1dede;margin-top:20px;">
-          <p style="margin: auto; font-size: 16px; color: #343837">
+        <section class="copyright" >
+          <p class="copyright__text">
             Copyright © 2023 [INSERTE NOMBRE]
           </p>
         </section>
