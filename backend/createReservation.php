@@ -34,7 +34,7 @@ $response = array(
    
 
    $findDate = false;
-   $mysqli = new mysqli("localhost", "Usuario", "arrozz", "officebd");
+   $mysqli = new mysqli("localhost", "root", "", "officebd");
    mysqli_set_charset($mysqli, "utf8");
    $id_shift;
    $id_schedule;
